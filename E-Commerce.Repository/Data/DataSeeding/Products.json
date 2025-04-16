@@ -1,0 +1,470 @@
+
+
+
+[
+  {
+    "Id": "XJHDKSLFA",
+    "Name": "Classic White T-Shirt",
+    "Description": "A comfortable and stylish white t-shirt.",
+    "PictureUrl": "Img/Products/ClassicWhiteT-Shirt.jpg",
+    "Size": "M",
+    "Colors": "White",
+    "StockQuantity": 50,
+    "Price": 19.99,
+    "CategoryId": "VTRW"
+  },
+  {
+    "Id": "PQOWIEURB",
+    "Name": "Black Hoodie",
+    "Description": "A warm and cozy black hoodie.",
+    "PictureUrl": "Img/Products/BlackHoodie.jpg",
+    "Size": "L",
+    "Colors": "Black",
+    "StockQuantity": 30,
+    "Price": 39.99,
+    "CategoryId": "VTRW"
+  },
+  {
+    "Id": "ZMXNCVBFC",
+    "Name": "Striped Polo Shirt",
+    "Description": "A casual striped polo shirt.",
+    "PictureUrl": "Img/Products/StripedPoloShirt.jpg",
+    "Size": "S",
+    "Colors": "Blue, White",
+    "StockQuantity": 40,
+    "Price": 29.99,
+    "CategoryId": "VTRW"
+  },
+  {
+    "Id": "TYUIOPASD",
+    "Name": "Red Flannel Shirt",
+    "Description": "A warm red flannel shirt for cold days.",
+    "PictureUrl": "Img/Products/RedFlannelShirt.jpg",
+    "Size": "XL",
+    "Colors": "Red",
+    "StockQuantity": 20,
+    "Price": 49.99,
+    "CategoryId": "VTRW"
+  },
+  {
+    "Id": "LKJHGFDSE",
+    "Name": "Graphic Print T-Shirt",
+    "Description": "A trendy t-shirt with a unique graphic print.",
+    "PictureUrl": "Img/Products/GraphicPrintT-Shirt.jpg",
+    "Size": "M",
+    "Colors": "Black, White",
+    "StockQuantity": 60,
+    "Price": 24.99,
+    "CategoryId": "VTRW"
+  },
+  {
+    "Id": "QWERTYUIF",
+    "Name": "Lightweight Jacket",
+    "Description": "A lightweight jacket for spring weather.",
+    "PictureUrl": "Img/Products/LightweightJacket.jpg",
+    "Size": "L",
+    "Colors": "Green",
+    "StockQuantity": 25,
+    "Price": 59.99,
+    "CategoryId": "XZSWERG"
+  },
+  {
+    "Id": "ASDFGHJKG",
+    "Name": "Denim Jeans",
+    "Description": "Classic blue denim jeans.",
+    "PictureUrl": "Img/Products/DenimJeans.jpg",
+    "Size": "32",
+    "Colors": "Blue",
+    "StockQuantity": 35,
+    "Price": 69.99,
+    "CategoryId": "VBHJK"
+  },
+  {
+    "Id": "MNBVCXZLH",
+    "Name": "Running Sneakers",
+    "Description": "Comfortable sneakers for running.",
+    "PictureUrl": "Img/Products/RunningSneakers.jpg",
+    "Size": "10",
+    "Colors": "Black, White",
+    "StockQuantity": 50,
+    "Price": 89.99,
+    "CategoryId": "OIKNF"
+  },
+  {
+    "Id": "PLMKNIJUI",
+    "Name": "Leather Jacket",
+    "Description": "A stylish leather jacket for a bold look.",
+    "PictureUrl": "Img/Products/LeatherJacket.jpg",
+    "Size": "M",
+    "Colors": "Black",
+    "StockQuantity": 15,
+    "Price": 199.99,
+    "CategoryId": "XZSWERG"
+  },
+  {
+    "Id": "OKMJNIBVJ",
+    "Name": "Cargo Shorts",
+    "Description": "Durable cargo shorts with multiple pockets.",
+    "PictureUrl": "Img/Products/CargoShorts.jpg",
+    "Size": "34",
+    "Colors": "KhakiK",
+    "StockQuantity": 40,
+    "Price": 49.99,
+    "CategoryId": "VBHJK"
+  },
+  {
+    "Id": "QAZWSXEDL",
+    "Name": "Cotton Tank Top",
+    "Description": "A lightweight cotton tank top for summer.",
+    "PictureUrl": "Img/Products/CottonTankTop.jpg",
+    "Size": "S",
+    "Colors": "Gray",
+    "StockQuantity": 55,
+    "Price": 14.99,
+    "CategoryId": "VTRW"
+  },
+  {
+    "Id": "RFVTGBYHM",
+    "Name": "Wool Coat",
+    "Description": "A warm wool coat for winter.",
+    "PictureUrl": "Img/Products/WoolCoat.jpg",
+    "Size": "L",
+    "Colors": "Navy",
+    "StockQuantity": 10,
+    "Price": 249.99,
+    "CategoryId": "XZSWERG"
+  },
+  {
+    "Id": "NHYGTBVCN",
+    "Name": "Chino Pants",
+    "Description": "Classic chino pants for a smart casual look.",
+    "PictureUrl": "Img/Products/ChinoPants.jpg",
+    "Size": "36",
+    "Colors": "Beige",
+    "StockQuantity": 30,
+    "Price": 59.99,
+    "CategoryId": "VBHJK"
+  },
+  {
+    "Id": "ZAQWSXEDO",
+    "Name": "Hiking Boots",
+    "Description": "Durable hiking boots for outdoor adventures.",
+    "PictureUrl": "Img/Products/HikingBoots.jpg",
+    "Size": "11",
+    "Colors": "Brown",
+    "StockQuantity": 20,
+    "Price": 129.99,
+    "CategoryId": "OIKNF"
+  },
+  {
+    "Id": "CDEFRVGTP",
+    "Name": "Puffer Jacket",
+    "Description": "A warm puffer jacket for cold weather.",
+    "PictureUrl": "Img/Products/PufferJacket.jpg",
+    "Size": "XL",
+    "Colors": "Black",
+    "StockQuantity": 18,
+    "Price": 179.99,
+    "CategoryId": "XZSWERG"
+
+  },
+  {
+    "Id": "XSWDEFRVQ",
+    "Name": "Slim Fit Jeans",
+    "Description": "Slim fit jeans for a modern look.",
+    "PictureUrl": "Img/Products/SlimFitJeans.jpg",
+    "Size": "30",
+    "Colors": "Black",
+    "StockQuantity": 25,
+    "Price": 79.99,
+    "CategoryId": "VBHJK"
+
+  },
+  {
+    "Id": "BGTNHYUJR",
+    "Name": "Canvas Sneakers",
+    "Description": "Casual canvas sneakers for everyday wear.",
+    "PictureUrl": "Img/Products/CanvasSneakers.jpg",
+    "Size": "9",
+    "Colors": "White",
+    "StockQuantity": 45,
+    "Price": 49.99,
+    "CategoryId": "OIKNF"
+
+  },
+  {
+    "Id": "WSXEDCRFS",
+    "Name": "V-Neck Sweater",
+    "Description": "A soft v-neck sweater for a cozy feel.",
+    "PictureUrl": "Img/Products/V-NeckSweater.jpg",
+    "Size": "M",
+    "Colors": "Navy",
+    "StockQuantity": 22,
+    "Price": 69.99,
+    "CategoryId": "VTRW"
+
+  },
+  {
+    "Id": "MNBVCDERT",
+    "Name": "Trench Coat",
+    "Description": "A classic trench coat for a sophisticated look.",
+    "PictureUrl": "Img/Products/TrenchCoat.jpg",
+    "Size": "L",
+    "Colors": "Beige",
+    "StockQuantity": 12,
+    "Price": 299.99,
+    "CategoryId": "XZSWERG"
+
+  },
+  {
+    "Id": "LKJHGFDSL",
+    "Name": "Jogger Pants",
+    "Description": "Comfortable jogger pants for casual wear.",
+    "PictureUrl": "Img/Products/JoggerPants.jpg",
+    "Size": "M",
+    "Colors": "Gray",
+    "StockQuantity": 35,
+    "Price": 44.99,
+    "CategoryId": "VBHJK"
+
+  },
+  {
+    "Id": "POIUYTREM",
+    "Name": "Slip-On Loafers",
+    "Description": "Elegant slip-on loafers for a polished look.",
+    "PictureUrl": "Img/Products/Slip-OnLoafers.jpg",
+    "Size": "10",
+    "Colors": "Brown",
+    "StockQuantity": 28,
+    "Price": 99.99,
+    "CategoryId": "OIKNF"
+
+  },
+  {
+    "Id": "VCXZASDFN",
+    "Name": "Henley Shirt",
+    "Description": "A casual henley shirt for a relaxed style.",
+    "PictureUrl": "Img/Products/HenleyShirt.jpg",
+    "Size": "L",
+    "Colors": "Green",
+    "StockQuantity": 40,
+    "Price": 34.99,
+    "CategoryId": "VTRW"
+
+  },
+  {
+    "Id": "POIUYTREO",
+    "Name": "Bomber Jacket",
+    "Description": "A trendy bomber jacket for a cool look.",
+    "PictureUrl": "Img/Products/BomberJacket.jpg",
+    "Size": "M",
+    "Colors": "Olive",
+    "StockQuantity": 20,
+    "Price": 149.99,
+    "CategoryId": "XZSWERG"
+
+  },
+  {
+    "Id": "LKJHGFDXP",
+    "Name": "Cargo Pants",
+    "Description": "Stylish cargo pants with utility pockets.",
+    "PictureUrl": "Img/Products/CargoPants.jpg",
+    "Size": "32",
+    "Colors": "Black",
+    "StockQuantity": 30,
+    "Price": 54.99,
+    "CategoryId": "VBHJK"
+  },
+  {
+    "Id": "WSXCDEFRZ",
+    "Name": "Espadrilles",
+    "Description": "Lightweight espadrilles for summer.",
+    "PictureUrl": "Img/Products/Espadrilles.jpg",
+    "Size": "8",
+    "Colors": "Blue",
+    "StockQuantity": 15,
+    "Price": 39.99,
+    "CategoryId": "OIKNF"
+
+  },
+  {
+    "Id": "TGHBVCXZX",
+    "Name": "Long Sleeve Tee",
+    "Description": "A comfortable long sleeve t-shirt.",
+    "PictureUrl": "Img/Products/LongSleeveTee.jpg",
+    "Size": "M",
+    "Colors": "Black",
+    "StockQuantity": 50,
+    "Price": 24.99,
+    "CategoryId": "VTRW"
+
+  },
+  {
+    "Id": "QWERTGFVY",
+    "Name": "Parka Jacket",
+    "Description": "A warm parka jacket for extreme cold.",
+    "PictureUrl": "Img/Products/ParkaJacket.jpg",
+    "Size": "XL",
+    "Colors": "Green",
+    "StockQuantity": 10,
+    "Price": 199.99,
+    "CategoryId": "XZSWERG"
+
+  },
+  {
+    "Id": "POIUYTREEQ",
+    "Name": "Skinny Jeans",
+    "Description": "Skinny fit jeans for a sleek look.",
+    "PictureUrl": "Img/Products/SkinnyJeans.jpg",
+    "Size": "28",
+    "Colors": "Blue",
+    "StockQuantity": 20,
+    "Price": 69.99,
+    "CategoryId": "VBHJK"
+
+  },
+  {
+    "Id": "ASDFGHJKP",
+    "Name": "Slip-On Sneakers",
+    "Description": "Casual slip-on sneakers for easy wear.",
+    "PictureUrl": "Img/Products/Slip-OnSneakers.jpg",
+    "Size": "9",
+    "Colors": "Black",
+    "StockQuantity": 30,
+    "Price": 59.99,
+    "CategoryId": "OIKNF"
+
+  },
+  {
+    "Id": "ZXCVBNMLM",
+    "Name": "Polo Shirt",
+    "Description": "A classic polo shirt for a smart casual look.",
+    "PictureUrl": "Img/Products/PoloShirt.jpg",
+    "Size": "L",
+    "Colors": "White",
+    "StockQuantity": 40,
+    "Price": 29.99,
+    "CategoryId": "VTRW"
+
+  },
+  {
+    "Id": "MLKJHGFVA",
+    "Name": "Raincoat",
+    "Description": "A waterproof raincoat for rainy days.",
+    "PictureUrl": "Img/Products/Raincoat.jpg",
+    "Size": "M",
+    "Colors": "Yellow",
+    "StockQuantity": 15,
+    "Price": 89.99,
+    "CategoryId": "XZSWERG"
+
+  },
+  {
+    "Id": "AQSWDEFRZ",
+    "Name": "Corduroy Pants",
+    "Description": "Soft corduroy pants for a vintage look.",
+    "PictureUrl": "Img/Products/CorduroyPants.jpg",
+    "Size": "34",
+    "Colors": "Brown",
+    "StockQuantity": 25,
+    "Price": 64.99,
+    "CategoryId": "VBHJK"
+
+  },
+  {
+    "Id": "RFVTGBNHR",
+    "Name": "Ankle Boots",
+    "Description": "Stylish ankle boots for a chic look.",
+    "PictureUrl": "Img/Products/AnkleBoots.jpg",
+    "Size": "7",
+    "Colors": "Black",
+    "StockQuantity": 18,
+    "Price": 109.99,
+    "CategoryId": "OIKNF"
+
+  },
+  {
+    "Id": "XDECRFVZQ",
+    "Name": "Sport Sandals",
+    "Description": "Perfect for outdoor activities and summer trips.",
+    "PictureUrl": "Img/Products/SportSandals.jpg",
+    "Size": "43",
+    "Colors": "Black, Green",
+    "StockQuantity": 35,
+    "Price": 39.99,
+    "CategoryId": "OIKNF"
+
+  },
+  {
+    "Id": "NHYGTBVCB",
+    "Name": "Windbreaker",
+    "Description": "A lightweight windbreaker for windy days.",
+    "PictureUrl": "Img/Products/Windbreaker.jpg",
+    "Size": "L",
+    "Colors": "Blue",
+    "StockQuantity": 20,
+    "Price": 79.99,
+    "CategoryId": "XZSWERG"
+
+  },
+  {
+    "Id": "POIUYTREI",
+    "Name": "Carpenter Pants",
+    "Description": "Durable carpenter pants for work or casual wear.",
+    "PictureUrl": "Img/Products/CarpenterPants.jpg",
+    "Size": "36",
+    "Colors": "Khaki",
+    "StockQuantity": 22,
+    "Price": 59.99,
+    "CategoryId": "VBHJK"
+
+  },
+  {
+    "Id": "AQWSXEDCP",
+    "Name": "Sandals",
+    "Description": "Comfortable sandals for summer.",
+    "PictureUrl": "Img/Products/Sandals.jpg",
+    "Size": "8",
+    "Colors": "Brown",
+    "StockQuantity": 30,
+    "Price": 34.99,
+    "CategoryId": "OIKNF"
+
+  },
+  {
+    "Id": "MNBVCXZQW",
+    "Name": "Casual Slip-Ons",
+    "Description": "Lightweight and breathable slip-on shoes.",
+    "PictureUrl": "Img/Products/CasualSlip-Ons.jpg",
+    "Size": "41",
+    "Colors": "Gray",
+    "StockQuantity": 18,
+    "Price": 74.99,
+    "CategoryId": "OIKNF"
+
+  },
+  {
+    "Id": "ZXCVBNMAT",
+    "Name": "Peacoat",
+    "Description": "A classic peacoat for a timeless look.",
+    "PictureUrl": "Img/Products/Peacoat.jpg",
+    "Size": "L",
+    "Colors": "Navy",
+    "StockQuantity": 12,
+    "Price": 249.99,
+    "CategoryId": "XZSWERG"
+
+  },
+  {
+    "Id": "LOKIUJMNC",
+    "Name": "Cargo Joggers",
+    "Description": "Stylish cargo joggers for a modern look.",
+    "PictureUrl": "Img/Products/CargoJoggers.jpg",
+    "Size": "M",
+    "Colors": "Green",
+    "StockQuantity": 28,
+    "Price": 49.99,
+    "CategoryId": "VBHJK"
+
+  }
+]

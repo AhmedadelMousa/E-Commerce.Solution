@@ -1,0 +1,23 @@
+[
+  {
+    "Id" :"VTRW",
+    "Name": "Tops",
+    "Description": "Shirts, T-shirts, and hoodies"
+
+  },
+  {
+    "Id" :"VBHJK",
+    "Name": "Bottoms",
+    "Description": "Jeans, trousers, and shorts"
+  },
+  {
+    "Id": "OIKNF",
+    "Name": "Footwear",
+    "Description": "Shoes, sneakers, and sandals"
+  },
+  {
+    "Id":"XZSWERG",
+    "Name": "Outerwear",
+    "Description": "Jackets, coats, and blazers"
+  }
+]
