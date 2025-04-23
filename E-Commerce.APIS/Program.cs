@@ -92,11 +92,11 @@ namespace E_Commerce.APIS
             }
 
             // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
+            //if (app.Environment.IsDevelopment())
+            //{
                 app.UseSwagger();
             app.UseSwaggerUI();
-            }
+           // }
 
             app.UseHttpsRedirection();
             app.UseCors("AllowAngularDevClient");
