@@ -45,6 +45,7 @@ namespace E_Commerce.Core.Specification.ProdutSpecification
         public ProductWithCategorySpec(string id) : base(P => P.Id == id)
         {
             Includes.Add(p => p.Reviews);
+            Includes.Add(p => p.Category);
         }
     }
 }

@@ -9,7 +9,7 @@ namespace E_Commerce.Core.Order_Aggregrate
 {
     public class OrderItem:BaseEntity
     {
-        public OrderItem(ProductItemOrdered product,decimal price,int quantity)
+        public OrderItem(ProductItemOrdered product,decimal price,int quantity=1)
         {
             Product = product;
             Price = price;

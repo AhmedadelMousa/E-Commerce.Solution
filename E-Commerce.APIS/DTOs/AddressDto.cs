@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace E_Commerce.APIS.DTOs
 {
@@ -13,7 +14,7 @@ namespace E_Commerce.APIS.DTOs
         [Required]
         public string City { get; set; }
         [Required]
-        [Display(Name ="Country")]
+        [JsonPropertyName("Country")]
         public string Countrty { get; set; }
     }
 }

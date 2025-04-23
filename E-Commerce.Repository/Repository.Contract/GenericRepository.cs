@@ -45,7 +45,7 @@ namespace E_Commerce.Repository.Repository.Contract
             return await _store.Set<T>().FirstOrDefaultAsync(predicate);
         }
 
-        public async Task<T> GetByIdAsync(string id)
+        public async Task<T> GetByIdAsync(object id)
         {
             return await _store.Set<T>().FindAsync(id);
         }

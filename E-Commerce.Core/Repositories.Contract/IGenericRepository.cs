@@ -12,7 +12,7 @@ namespace E_Commerce.Core.Repositories.Contract
     public interface IGenericRepository<T> where T : BaseEntity
     {
        
-        Task<T> GetByIdAsync(string id);
+        Task<T> GetByIdAsync(object id);
         Task<IReadOnlyList<T>> GetAllAsync();
         Task AddAsync(T entity);
         void UpdateAsync(T entity);

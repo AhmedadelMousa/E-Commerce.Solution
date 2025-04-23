@@ -24,34 +24,72 @@ namespace E_Commerce.Service
         }
         public async Task<Order?> CreateOrderAsync(string appUserId, string basketId, string deliveryMethodId, AddressOrder shippingAddress)
         {
-           var basket= await _basketRepository.GetBasketAsync(basketId);
-
+            var basket = await _basketRepository.GetBasketAsync(basketId);
+            if (basket?.Items == null || !basket.Items.Any()) return null;
 
             var orderItems = new List<OrderItem>();
-            if(basket?.Items?.Count>0)
+
+            foreach (var item in basket.Items)
             {
-                foreach(var item in  basket.Items)
-                {
-                    var product= await _unitOfWork.Repository<Product>().GetByIdAsync(item.Id);
-                    var productItemOrdered=new ProductItemOrdered(item.Id,product.Name,product.PictureUrl);
-                    var orderItem=  new OrderItem(productItemOrdered,product.Price,item.Quentity);
-                    orderItem.Id= Guid.NewGuid().ToString();
+                var orderItem = await PrepareOrderItemAsync(item.Id, item.Quentity);
+                if (orderItem != null)
                     orderItems.Add(orderItem);
-                }
             }
 
-            var subTotal=orderItems.Sum(orderItem=> orderItem.Price* orderItem.Quantity);
+            return await CreateOrderInternalAsync(appUserId, deliveryMethodId, shippingAddress, orderItems);
+            //var basket= await _basketRepository.GetBasketAsync(basketId);
 
-            var deliveryMethod= await _unitOfWork.Repository<DeliveryMethod>().GetByIdAsync(deliveryMethodId);
 
-            var order = new Order(appUserId, shippingAddress, deliveryMethod, orderItems, subTotal);
-            order.paymentMethod=PaymentMethod.CashOnDelivery;
-            order.Id = Guid.NewGuid().ToString();
-            await _unitOfWork.Repository<Order>().AddAsync(order);
-         
-            var result= await _unitOfWork.CompleteAsync();
-            if(result<=0) return null;
-            return order;
+            // var orderItems = new List<OrderItem>();
+            // if(basket?.Items?.Count>0)
+            // {
+            //     foreach(var item in  basket.Items)
+            //     {
+            //         var product= await _unitOfWork.Repository<Product>().GetByIdAsync(item.Id);
+            //         var productItemOrdered=new ProductItemOrdered(item.Id,product.Name,product.PictureUrl);
+            //         var orderItem=  new OrderItem(productItemOrdered,product.Price,item.Quentity);
+            //         orderItem.Id= Guid.NewGuid().ToString();
+            //         orderItems.Add(orderItem);
+            //     }
+            // }
+
+            // var subTotal=orderItems.Sum(orderItem=> orderItem.Price* orderItem.Quantity);
+
+            // var deliveryMethod= await _unitOfWork.Repository<DeliveryMethod>().GetByIdAsync(deliveryMethodId);
+
+            // var order = new Order(appUserId, shippingAddress, deliveryMethod, orderItems, subTotal);
+            // order.paymentMethod=PaymentMethod.CashOnDelivery;
+            // order.Id = Guid.NewGuid().ToString();
+            // await _unitOfWork.Repository<Order>().AddAsync(order);
+
+            // var result= await _unitOfWork.CompleteAsync();
+            // if(result<=0) return null;
+            // return order;
+        }
+
+        public async Task<Order?> CreateSingleOrderProduct(string appUserId, string productId, string deliveryMethodId, AddressOrder shippingAddress)
+        {
+            //var product= await _unitOfWork.Repository<Product>().GetByIdAsync(productId);
+            //  if (product == null) return null;
+
+            //  var productItemOrdered= new ProductItemOrdered(product.Id,product.Name,product.PictureUrl);
+            //  var orderItem = new OrderItem(productItemOrdered,product.Price);
+            //  orderItem.Id = Guid.NewGuid().ToString();
+            //  var subTotal= orderItem.Price;
+            //  var deliveryMethod = await _unitOfWork.Repository<DeliveryMethod>().GetByIdAsync(deliveryMethodId);
+            //  var orderItems = new List<OrderItem> { orderItem };
+            //  var order= new Order(appUserId,shippingAddress,deliveryMethod,orderItems,subTotal);
+            //  order.paymentMethod=PaymentMethod.CashOnDelivery;
+            //  order.Id = Guid.NewGuid().ToString();
+            //  await _unitOfWork.Repository<Order>().AddAsync(order);
+            //  var result = await _unitOfWork.CompleteAsync();
+            //  if (result <= 0) return null;
+            //  return order;
+            var orderItem = await PrepareOrderItemAsync(productId, 1);
+            if (orderItem == null) return null;
+            var orderItems = new List<OrderItem> { orderItem };
+            return await CreateOrderInternalAsync(appUserId, deliveryMethodId, shippingAddress, orderItems);
+
         }
 
         public async Task<Order?> GetOrderByIdForUserAsync(string orderId, string appUserId)
@@ -71,5 +109,36 @@ namespace E_Commerce.Service
             return orders;
 
         }
+
+        private async Task<Order?> CreateOrderInternalAsync(string appUserId, string deliveryMethodId, AddressOrder shippingAddress,List<OrderItem> orderItems)
+        {
+            var subTotal = orderItems.Sum(item => item.Price * item.Quantity);
+            var deliveryMethod = await _unitOfWork.Repository<DeliveryMethod>().GetByIdAsync(deliveryMethodId);
+            if (deliveryMethod == null) return null;
+            var order = new Order(appUserId, shippingAddress, deliveryMethod, orderItems, subTotal)
+            {
+                Id = Guid.NewGuid().ToString(),
+                paymentMethod = PaymentMethod.CashOnDelivery
+            };
+            await _unitOfWork.Repository<Order>().AddAsync(order);
+            var result = await _unitOfWork.CompleteAsync();
+
+            return result <= 0 ? null : order;
+        }
+        private async Task<OrderItem?> PrepareOrderItemAsync(string productId, int quantity)
+        {
+            var product = await _unitOfWork.Repository<Product>().GetByIdAsync(productId);
+            if (product == null) return null;
+
+            var productItemOrdered = new ProductItemOrdered(product.Id, product.Name, product.PictureUrl);
+            var orderItem = new OrderItem(productItemOrdered, product.Price, quantity)
+            {
+                Id = Guid.NewGuid().ToString()
+            };
+
+            return orderItem;
+        }
+
+     
     }
 }
