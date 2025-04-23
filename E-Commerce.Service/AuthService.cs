@@ -41,6 +41,7 @@ namespace E_Commerce.Service
                 issuer: _configuration["JWT:ValidIssuer"],
                 expires: DateTime.Now.AddDays(double.Parse(_configuration["JWT:DurationInDays"] ?? "0")),
                 claims: authClaims,
+
                 signingCredentials: new SigningCredentials(authKey, SecurityAlgorithms.HmacSha256Signature)
                 );
             return new JwtSecurityTokenHandler().WriteToken(Token);

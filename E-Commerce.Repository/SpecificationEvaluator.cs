@@ -20,6 +20,10 @@ namespace E_Commerce.Repository
             {
                 query = query.Where(spec.Criteria);//_store.Set<product>().Where(P=>P.Id==id)
             }
+            if (spec.DateFiltrationCriteria is not null)
+            {
+                query = query.Where(spec.DateFiltrationCriteria);
+            }
             if (spec.OrderBy is not null)
             {
                 query = query.OrderBy(spec.OrderBy);
@@ -33,6 +37,7 @@ namespace E_Commerce.Repository
             {
                 query = query.Skip(spec.Skip).Take(spec.Take);
             }
+            
 
             query = spec.Includes.Aggregate(query, (CurrentQuery, includeExpression) => CurrentQuery.Include(includeExpression));
             return query;

@@ -1,31 +1,30 @@
-
-
-
 [
+	{
+		"CategoryId": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+		"Colors": "White",
+		"CreatedAt": "2025-03-15T08:30:00Z",
+		"Description": "A comfortable and stylish white t-shirt.",
+		"Id": "3a4b5c6d-7e8f-4a9b-8c9d-0e1f2a3b4c5d",
+		"Name": "Classic White T-Shirt",
+		"PictureUrl": "Img/Products/ClassicWhiteT-Shirt.jpg",
+		"Price": 19.99,
+		"Size": "M",
+		"StockQuantity": 50
+	},
+	{
+		"CategoryId": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+		"Colors": "Black",
+		"CreatedAt": "2025-02-22T14:15:00Z",
+		"Description": "A warm and cozy black hoodie.",
+		"Id": "4b5c6d7e-8f9a-4b8c-9d0e-1f2a3b4c5d6e",
+		"Name": "Black Hoodie",
+		"PictureUrl": "Img/Products/BlackHoodie.jpg",
+		"Price": 39.99,
+		"Size": "L",
+		"StockQuantity": 30
+	},
   {
-    "Id": "XJHDKSLFA",
-    "Name": "Classic White T-Shirt",
-    "Description": "A comfortable and stylish white t-shirt.",
-    "PictureUrl": "Img/Products/ClassicWhiteT-Shirt.jpg",
-    "Size": "M",
-    "Colors": "White",
-    "StockQuantity": 50,
-    "Price": 19.99,
-    "CategoryId": "VTRW"
-  },
-  {
-    "Id": "PQOWIEURB",
-    "Name": "Black Hoodie",
-    "Description": "A warm and cozy black hoodie.",
-    "PictureUrl": "Img/Products/BlackHoodie.jpg",
-    "Size": "L",
-    "Colors": "Black",
-    "StockQuantity": 30,
-    "Price": 39.99,
-    "CategoryId": "VTRW"
-  },
-  {
-    "Id": "ZMXNCVBFC",
+    "Id": "5c6d7e8f-9a0b-4c9d-0e1f-2a3b4c5d6e7f",
     "Name": "Striped Polo Shirt",
     "Description": "A casual striped polo shirt.",
     "PictureUrl": "Img/Products/StripedPoloShirt.jpg",
@@ -33,10 +32,11 @@
     "Colors": "Blue, White",
     "StockQuantity": 40,
     "Price": 29.99,
-    "CategoryId": "VTRW"
+    "CategoryId": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "CreatedAt": "2025-04-05T09:45:00Z"
   },
   {
-    "Id": "TYUIOPASD",
+    "Id": "6d7e8f9a-0b1c-4d0e-1f2a-3b4c5d6e7f8g",
     "Name": "Red Flannel Shirt",
     "Description": "A warm red flannel shirt for cold days.",
     "PictureUrl": "Img/Products/RedFlannelShirt.jpg",
@@ -44,10 +44,11 @@
     "Colors": "Red",
     "StockQuantity": 20,
     "Price": 49.99,
-    "CategoryId": "VTRW"
+    "CategoryId": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "CreatedAt": "2025-03-28T16:20:00Z"
   },
   {
-    "Id": "LKJHGFDSE",
+    "Id": "7e8f9a0b-1c2d-4e1f-2a3b-4c5d6e7f8g9h",
     "Name": "Graphic Print T-Shirt",
     "Description": "A trendy t-shirt with a unique graphic print.",
     "PictureUrl": "Img/Products/GraphicPrintT-Shirt.jpg",
@@ -55,10 +56,11 @@
     "Colors": "Black, White",
     "StockQuantity": 60,
     "Price": 24.99,
-    "CategoryId": "VTRW"
+    "CategoryId": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "CreatedAt": "2025-04-12T11:10:00Z"
   },
   {
-    "Id": "QWERTYUIF",
+    "Id": "8f9a0b1c-2d3e-4f2a-3b4c-5d6e7f8g9h0i",
     "Name": "Lightweight Jacket",
     "Description": "A lightweight jacket for spring weather.",
     "PictureUrl": "Img/Products/LightweightJacket.jpg",
@@ -66,10 +68,11 @@
     "Colors": "Green",
     "StockQuantity": 25,
     "Price": 59.99,
-    "CategoryId": "XZSWERG"
+    "CategoryId": "d4e5f6a7-b8c9-4d0e-1f2a-3b4c5d6e7f8g",
+    "CreatedAt": "2025-02-18T13:25:00Z"
   },
   {
-    "Id": "ASDFGHJKG",
+    "Id": "9a0b1c2d-3e4f-4a3b-4c5d-6e7f8g9h0i1j",
     "Name": "Denim Jeans",
     "Description": "Classic blue denim jeans.",
     "PictureUrl": "Img/Products/DenimJeans.jpg",
@@ -77,10 +80,11 @@
     "Colors": "Blue",
     "StockQuantity": 35,
     "Price": 69.99,
-    "CategoryId": "VBHJK"
+    "CategoryId": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "CreatedAt": "2025-03-08T10:40:00Z"
   },
   {
-    "Id": "MNBVCXZLH",
+    "Id": "0b1c2d3e-4f5a-4b4c-5d6e-7f8g9h0i1j2k",
     "Name": "Running Sneakers",
     "Description": "Comfortable sneakers for running.",
     "PictureUrl": "Img/Products/RunningSneakers.jpg",
@@ -88,10 +92,11 @@
     "Colors": "Black, White",
     "StockQuantity": 50,
     "Price": 89.99,
-    "CategoryId": "OIKNF"
+    "CategoryId": "e5f6a7b8-c9d0-4e1f-2a3b-4c5d6e7f8g9h",
+    "CreatedAt": "2025-03-25T15:30:00Z"
   },
   {
-    "Id": "PLMKNIJUI",
+    "Id": "1c2d3e4f-5a6b-4c5d-6e7f-8g9h0i1j2k3l",
     "Name": "Leather Jacket",
     "Description": "A stylish leather jacket for a bold look.",
     "PictureUrl": "Img/Products/LeatherJacket.jpg",
@@ -99,21 +104,23 @@
     "Colors": "Black",
     "StockQuantity": 15,
     "Price": 199.99,
-    "CategoryId": "XZSWERG"
+    "CategoryId": "d4e5f6a7-b8c9-4d0e-1f2a-3b4c5d6e7f8g",
+    "CreatedAt": "2025-04-15T09:20:00Z"
   },
   {
-    "Id": "OKMJNIBVJ",
+    "Id": "2d3e4f5a-6b7c-4d6e-7f8g-9h0i1j2k3l4m",
     "Name": "Cargo Shorts",
     "Description": "Durable cargo shorts with multiple pockets.",
     "PictureUrl": "Img/Products/CargoShorts.jpg",
     "Size": "34",
-    "Colors": "KhakiK",
+    "Colors": "Khaki",
     "StockQuantity": 40,
     "Price": 49.99,
-    "CategoryId": "VBHJK"
+    "CategoryId": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "CreatedAt": "2025-03-30T14:50:00Z"
   },
   {
-    "Id": "QAZWSXEDL",
+    "Id": "3e4f5a6b-7c8d-4e7f-8g9h-0i1j2k3l4m5n",
     "Name": "Cotton Tank Top",
     "Description": "A lightweight cotton tank top for summer.",
     "PictureUrl": "Img/Products/CottonTankTop.jpg",
@@ -121,10 +128,11 @@
     "Colors": "Gray",
     "StockQuantity": 55,
     "Price": 14.99,
-    "CategoryId": "VTRW"
+    "CategoryId": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "CreatedAt": "2025-04-18T08:15:00Z"
   },
   {
-    "Id": "RFVTGBYHM",
+    "Id": "4f5a6b7c-8d9e-4f8g-9h0i-1j2k3l4m5n6o",
     "Name": "Wool Coat",
     "Description": "A warm wool coat for winter.",
     "PictureUrl": "Img/Products/WoolCoat.jpg",
@@ -132,10 +140,11 @@
     "Colors": "Navy",
     "StockQuantity": 10,
     "Price": 249.99,
-    "CategoryId": "XZSWERG"
+    "CategoryId": "d4e5f6a7-b8c9-4d0e-1f2a-3b4c5d6e7f8g",
+    "CreatedAt": "2025-02-12T11:30:00Z"
   },
   {
-    "Id": "NHYGTBVCN",
+    "Id": "5a6b7c8d-9e0f-4g9h-0i1j-2k3l4m5n6o7p",
     "Name": "Chino Pants",
     "Description": "Classic chino pants for a smart casual look.",
     "PictureUrl": "Img/Products/ChinoPants.jpg",
@@ -143,10 +152,11 @@
     "Colors": "Beige",
     "StockQuantity": 30,
     "Price": 59.99,
-    "CategoryId": "VBHJK"
+    "CategoryId": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "CreatedAt": "2025-04-10T13:45:00Z"
   },
   {
-    "Id": "ZAQWSXEDO",
+    "Id": "6b7c8d9e-0f1a-4h0i-1j2k-3l4m5n6o7p8q",
     "Name": "Hiking Boots",
     "Description": "Durable hiking boots for outdoor adventures.",
     "PictureUrl": "Img/Products/HikingBoots.jpg",
@@ -154,10 +164,11 @@
     "Colors": "Brown",
     "StockQuantity": 20,
     "Price": 129.99,
-    "CategoryId": "OIKNF"
+    "CategoryId": "e5f6a7b8-c9d0-4e1f-2a3b-4c5d6e7f8g9h",
+    "CreatedAt": "2025-02-08T10:20:00Z"
   },
   {
-    "Id": "CDEFRVGTP",
+    "Id": "7c8d9e0f-1a2b-4i1j-2k3l-4m5n6o7p8q9r",
     "Name": "Puffer Jacket",
     "Description": "A warm puffer jacket for cold weather.",
     "PictureUrl": "Img/Products/PufferJacket.jpg",
@@ -165,11 +176,11 @@
     "Colors": "Black",
     "StockQuantity": 18,
     "Price": 179.99,
-    "CategoryId": "XZSWERG"
-
+    "CategoryId": "d4e5f6a7-b8c9-4d0e-1f2a-3b4c5d6e7f8g",
+    "CreatedAt": "2025-03-18T16:10:00Z"
   },
   {
-    "Id": "XSWDEFRVQ",
+    "Id": "8d9e0f1a-2b3c-4j2k-3l4m-5n6o7p8q9r0s",
     "Name": "Slim Fit Jeans",
     "Description": "Slim fit jeans for a modern look.",
     "PictureUrl": "Img/Products/SlimFitJeans.jpg",
@@ -177,11 +188,11 @@
     "Colors": "Black",
     "StockQuantity": 25,
     "Price": 79.99,
-    "CategoryId": "VBHJK"
-
+    "CategoryId": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "CreatedAt": "2025-02-22T09:35:00Z"
   },
   {
-    "Id": "BGTNHYUJR",
+    "Id": "9e0f1a2b-3c4d-4k3l-4m5n-6o7p8q9r0s1t",
     "Name": "Canvas Sneakers",
     "Description": "Casual canvas sneakers for everyday wear.",
     "PictureUrl": "Img/Products/CanvasSneakers.jpg",
@@ -189,11 +200,11 @@
     "Colors": "White",
     "StockQuantity": 45,
     "Price": 49.99,
-    "CategoryId": "OIKNF"
-
+    "CategoryId": "e5f6a7b8-c9d0-4e1f-2a3b-4c5d6e7f8g9h",
+    "CreatedAt": "2025-03-10T14:25:00Z"
   },
   {
-    "Id": "WSXEDCRFS",
+    "Id": "0f1a2b3c-4d5e-4l4m-5n6o-7p8q9r0s1t2u",
     "Name": "V-Neck Sweater",
     "Description": "A soft v-neck sweater for a cozy feel.",
     "PictureUrl": "Img/Products/V-NeckSweater.jpg",
@@ -201,11 +212,11 @@
     "Colors": "Navy",
     "StockQuantity": 22,
     "Price": 69.99,
-    "CategoryId": "VTRW"
-
+    "CategoryId": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "CreatedAt": "2025-02-05T12:40:00Z"
   },
   {
-    "Id": "MNBVCDERT",
+    "Id": "1a2b3c4d-5e6f-4m5n-6o7p-8q9r0s1t2u3v",
     "Name": "Trench Coat",
     "Description": "A classic trench coat for a sophisticated look.",
     "PictureUrl": "Img/Products/TrenchCoat.jpg",
@@ -213,11 +224,11 @@
     "Colors": "Beige",
     "StockQuantity": 12,
     "Price": 299.99,
-    "CategoryId": "XZSWERG"
-
+    "CategoryId": "d4e5f6a7-b8c9-4d0e-1f2a-3b4c5d6e7f8g",
+    "CreatedAt": "2025-04-05T10:15:00Z"
   },
   {
-    "Id": "LKJHGFDSL",
+    "Id": "2b3c4d5e-6f7g-4n6o-7p8q-9r0s1t2u3v4w",
     "Name": "Jogger Pants",
     "Description": "Comfortable jogger pants for casual wear.",
     "PictureUrl": "Img/Products/JoggerPants.jpg",
@@ -225,11 +236,11 @@
     "Colors": "Gray",
     "StockQuantity": 35,
     "Price": 44.99,
-    "CategoryId": "VBHJK"
-
+    "CategoryId": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "CreatedAt": "2025-03-15T15:50:00Z"
   },
   {
-    "Id": "POIUYTREM",
+    "Id": "3c4d5e6f-7g8h-4o7p-8q9r-0s1t2u3v4w5x",
     "Name": "Slip-On Loafers",
     "Description": "Elegant slip-on loafers for a polished look.",
     "PictureUrl": "Img/Products/Slip-OnLoafers.jpg",
@@ -237,11 +248,11 @@
     "Colors": "Brown",
     "StockQuantity": 28,
     "Price": 99.99,
-    "CategoryId": "OIKNF"
-
+    "CategoryId": "e5f6a7b8-c9d0-4e1f-2a3b-4c5d6e7f8g9h",
+    "CreatedAt": "2025-03-05T08:30:00Z"
   },
   {
-    "Id": "VCXZASDFN",
+    "Id": "4d5e6f7g-8h9i-4p8q-9r0s-1t2u3v4w5x6y",
     "Name": "Henley Shirt",
     "Description": "A casual henley shirt for a relaxed style.",
     "PictureUrl": "Img/Products/HenleyShirt.jpg",
@@ -249,11 +260,11 @@
     "Colors": "Green",
     "StockQuantity": 40,
     "Price": 34.99,
-    "CategoryId": "VTRW"
-
+    "CategoryId": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "CreatedAt": "2025-02-28T13:20:00Z"
   },
   {
-    "Id": "POIUYTREO",
+    "Id": "5e6f7g8h-9i0j-4q9r-0s1t-2u3v4w5x6y7z",
     "Name": "Bomber Jacket",
     "Description": "A trendy bomber jacket for a cool look.",
     "PictureUrl": "Img/Products/BomberJacket.jpg",
@@ -261,11 +272,11 @@
     "Colors": "Olive",
     "StockQuantity": 20,
     "Price": 149.99,
-    "CategoryId": "XZSWERG"
-
+    "CategoryId": "d4e5f6a7-b8c9-4d0e-1f2a-3b4c5d6e7f8g",
+    "CreatedAt": "2025-04-15T11:45:00Z"
   },
   {
-    "Id": "LKJHGFDXP",
+    "Id": "6f7g8h9i-0j1k-4r0s-1t2u-3v4w5x6y7z8a",
     "Name": "Cargo Pants",
     "Description": "Stylish cargo pants with utility pockets.",
     "PictureUrl": "Img/Products/CargoPants.jpg",
@@ -273,10 +284,11 @@
     "Colors": "Black",
     "StockQuantity": 30,
     "Price": 54.99,
-    "CategoryId": "VBHJK"
+    "CategoryId": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "CreatedAt": "2025-02-10T09:10:00Z"
   },
   {
-    "Id": "WSXCDEFRZ",
+    "Id": "7g8h9i0j-1k2l-4s1t-2u3v-4w5x6y7z8a9b",
     "Name": "Espadrilles",
     "Description": "Lightweight espadrilles for summer.",
     "PictureUrl": "Img/Products/Espadrilles.jpg",
@@ -284,11 +296,11 @@
     "Colors": "Blue",
     "StockQuantity": 15,
     "Price": 39.99,
-    "CategoryId": "OIKNF"
-
+    "CategoryId": "e5f6a7b8-c9d0-4e1f-2a3b-4c5d6e7f8g9h",
+    "CreatedAt": "2025-03-22T14:30:00Z"
   },
   {
-    "Id": "TGHBVCXZX",
+    "Id": "8h9i0j1k-2l3m-4t2u-3v4w-5x6y7z8a9b0c",
     "Name": "Long Sleeve Tee",
     "Description": "A comfortable long sleeve t-shirt.",
     "PictureUrl": "Img/Products/LongSleeveTee.jpg",
@@ -296,11 +308,11 @@
     "Colors": "Black",
     "StockQuantity": 50,
     "Price": 24.99,
-    "CategoryId": "VTRW"
-
+    "CategoryId": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "CreatedAt": "2025-03-20T10:50:00Z"
   },
   {
-    "Id": "QWERTGFVY",
+    "Id": "9i0j1k2l-3m4n-4u3v-4w5x-6y7z8a9b0c1d",
     "Name": "Parka Jacket",
     "Description": "A warm parka jacket for extreme cold.",
     "PictureUrl": "Img/Products/ParkaJacket.jpg",
@@ -308,11 +320,11 @@
     "Colors": "Green",
     "StockQuantity": 10,
     "Price": 199.99,
-    "CategoryId": "XZSWERG"
-
+    "CategoryId": "d4e5f6a7-b8c9-4d0e-1f2a-3b4c5d6e7f8g",
+    "CreatedAt": "2025-03-08T16:20:00Z"
   },
   {
-    "Id": "POIUYTREEQ",
+    "Id": "0j1k2l3m-4n5o-4v4w-5x6y-7z8a9b0c1d2e",
     "Name": "Skinny Jeans",
     "Description": "Skinny fit jeans for a sleek look.",
     "PictureUrl": "Img/Products/SkinnyJeans.jpg",
@@ -320,11 +332,11 @@
     "Colors": "Blue",
     "StockQuantity": 20,
     "Price": 69.99,
-    "CategoryId": "VBHJK"
-
+    "CategoryId": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "CreatedAt": "2025-02-25T12:15:00Z"
   },
   {
-    "Id": "ASDFGHJKP",
+    "Id": "1k2l3m4n-5o6p-4w5x-6y7z-8a9b0c1d2e3f",
     "Name": "Slip-On Sneakers",
     "Description": "Casual slip-on sneakers for easy wear.",
     "PictureUrl": "Img/Products/Slip-OnSneakers.jpg",
@@ -332,11 +344,11 @@
     "Colors": "Black",
     "StockQuantity": 30,
     "Price": 59.99,
-    "CategoryId": "OIKNF"
-
+    "CategoryId": "e5f6a7b8-c9d0-4e1f-2a3b-4c5d6e7f8g9h",
+    "CreatedAt": "2025-04-12T09:40:00Z"
   },
   {
-    "Id": "ZXCVBNMLM",
+    "Id": "2l3m4n5o-6p7q-4x6y-7z8a-9b0c1d2e3f4g",
     "Name": "Polo Shirt",
     "Description": "A classic polo shirt for a smart casual look.",
     "PictureUrl": "Img/Products/PoloShirt.jpg",
@@ -344,11 +356,11 @@
     "Colors": "White",
     "StockQuantity": 40,
     "Price": 29.99,
-    "CategoryId": "VTRW"
-
+    "CategoryId": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "CreatedAt": "2025-02-18T14:10:00Z"
   },
   {
-    "Id": "MLKJHGFVA",
+    "Id": "3m4n5o6p-7q8r-4y7z-8a9b-0c1d2e3f4g5h",
     "Name": "Raincoat",
     "Description": "A waterproof raincoat for rainy days.",
     "PictureUrl": "Img/Products/Raincoat.jpg",
@@ -356,11 +368,11 @@
     "Colors": "Yellow",
     "StockQuantity": 15,
     "Price": 89.99,
-    "CategoryId": "XZSWERG"
-
+    "CategoryId": "d4e5f6a7-b8c9-4d0e-1f2a-3b4c5d6e7f8g",
+    "CreatedAt": "2025-04-10T15:30:00Z"
   },
   {
-    "Id": "AQSWDEFRZ",
+    "Id": "4n5o6p7q-8r9s-4z8a-9b0c-1d2e3f4g5h6i",
     "Name": "Corduroy Pants",
     "Description": "Soft corduroy pants for a vintage look.",
     "PictureUrl": "Img/Products/CorduroyPants.jpg",
@@ -368,11 +380,11 @@
     "Colors": "Brown",
     "StockQuantity": 25,
     "Price": 64.99,
-    "CategoryId": "VBHJK"
-
+    "CategoryId": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "CreatedAt": "2025-02-08T11:25:00Z"
   },
   {
-    "Id": "RFVTGBNHR",
+    "Id": "5o6p7q8r-9s0t-4a9b-0c1d-2e3f4g5h6i7j",
     "Name": "Ankle Boots",
     "Description": "Stylish ankle boots for a chic look.",
     "PictureUrl": "Img/Products/AnkleBoots.jpg",
@@ -380,11 +392,11 @@
     "Colors": "Black",
     "StockQuantity": 18,
     "Price": 109.99,
-    "CategoryId": "OIKNF"
-
+    "CategoryId": "e5f6a7b8-c9d0-4e1f-2a3b-4c5d6e7f8g9h",
+    "CreatedAt": "2025-03-20T13:50:00Z"
   },
   {
-    "Id": "XDECRFVZQ",
+    "Id": "6p7q8r9s-0t1u-4b0c-1d2e-3f4g5h6i7j8k",
     "Name": "Sport Sandals",
     "Description": "Perfect for outdoor activities and summer trips.",
     "PictureUrl": "Img/Products/SportSandals.jpg",
@@ -392,11 +404,11 @@
     "Colors": "Black, Green",
     "StockQuantity": 35,
     "Price": 39.99,
-    "CategoryId": "OIKNF"
-
+    "CategoryId": "e5f6a7b8-c9d0-4e1f-2a3b-4c5d6e7f8g9h",
+    "CreatedAt": "2025-03-30T10:15:00Z"
   },
   {
-    "Id": "NHYGTBVCB",
+    "Id": "7q8r9s0t-1u2v-4c1d-2e3f-4g5h6i7j8k9l",
     "Name": "Windbreaker",
     "Description": "A lightweight windbreaker for windy days.",
     "PictureUrl": "Img/Products/Windbreaker.jpg",
@@ -404,11 +416,11 @@
     "Colors": "Blue",
     "StockQuantity": 20,
     "Price": 79.99,
-    "CategoryId": "XZSWERG"
-
+    "CategoryId": "d4e5f6a7-b8c9-4d0e-1f2a-3b4c5d6e7f8g",
+    "CreatedAt": "2025-04-15T08:40:00Z"
   },
   {
-    "Id": "POIUYTREI",
+    "Id": "8r9s0t1u-2v3w-4d2e-3f4g-5h6i7j8k9l0m",
     "Name": "Carpenter Pants",
     "Description": "Durable carpenter pants for work or casual wear.",
     "PictureUrl": "Img/Products/CarpenterPants.jpg",
@@ -416,11 +428,11 @@
     "Colors": "Khaki",
     "StockQuantity": 22,
     "Price": 59.99,
-    "CategoryId": "VBHJK"
-
+    "CategoryId": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "CreatedAt": "2025-02-12T15:20:00Z"
   },
   {
-    "Id": "AQWSXEDCP",
+    "Id": "9s0t1u2v-3w4x-4e3f-4g5h-6i7j8k9l0m1n",
     "Name": "Sandals",
     "Description": "Comfortable sandals for summer.",
     "PictureUrl": "Img/Products/Sandals.jpg",
@@ -428,11 +440,11 @@
     "Colors": "Brown",
     "StockQuantity": 30,
     "Price": 34.99,
-    "CategoryId": "OIKNF"
-
+    "CategoryId": "e5f6a7b8-c9d0-4e1f-2a3b-4c5d6e7f8g9h",
+    "CreatedAt": "2025-04-18T12:30:00Z"
   },
   {
-    "Id": "MNBVCXZQW",
+    "Id": "0t1u2v3w-4x5y-4f4g-5h6i-7j8k9l0m1n2o",
     "Name": "Casual Slip-Ons",
     "Description": "Lightweight and breathable slip-on shoes.",
     "PictureUrl": "Img/Products/CasualSlip-Ons.jpg",
@@ -440,11 +452,11 @@
     "Colors": "Gray",
     "StockQuantity": 18,
     "Price": 74.99,
-    "CategoryId": "OIKNF"
-
+    "CategoryId": "e5f6a7b8-c9d0-4e1f-2a3b-4c5d6e7f8g9h",
+    "CreatedAt": "2025-02-22T09:50:00Z"
   },
   {
-    "Id": "ZXCVBNMAT",
+    "Id": "1u2v3w4x-5y6z-4g5h-6i7j-8k9l0m1n2o3p",
     "Name": "Peacoat",
     "Description": "A classic peacoat for a timeless look.",
     "PictureUrl": "Img/Products/Peacoat.jpg",
@@ -452,11 +464,11 @@
     "Colors": "Navy",
     "StockQuantity": 12,
     "Price": 249.99,
-    "CategoryId": "XZSWERG"
-
+    "CategoryId": "d4e5f6a7-b8c9-4d0e-1f2a-3b4c5d6e7f8g",
+    "CreatedAt": "2025-03-10T16:10:00Z"
   },
   {
-    "Id": "LOKIUJMNC",
+    "Id": "2v3w4x5y-6z7a-4h6i-7j8k-9l0m1n2o3p4q",
     "Name": "Cargo Joggers",
     "Description": "Stylish cargo joggers for a modern look.",
     "PictureUrl": "Img/Products/CargoJoggers.jpg",
@@ -464,7 +476,7 @@
     "Colors": "Green",
     "StockQuantity": 28,
     "Price": 49.99,
-    "CategoryId": "VBHJK"
-
+    "CategoryId": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "CreatedAt": "2025-02-05T14:40:00Z"
   }
 ]

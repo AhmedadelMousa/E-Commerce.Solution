@@ -4,8 +4,8 @@ using E_Commerce.Core.Entities;
 
 namespace E_Commerce.APIS.Helpers
 {
-    public class PictureUrlResolver : IValueResolver<Product, ProductDetailsResponseDto, string>, IValueResolver<Product, ProductsDto, string>
-
+    public class PictureUrlResolver 
+        : IValueResolver<Product, ProductDetailsResponseDto, string>, IValueResolver<Product, ProductsDto, string>
     {
         private readonly IConfiguration _configuration;
 

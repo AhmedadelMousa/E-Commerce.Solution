@@ -1,31 +1,29 @@
 ﻿using E_Commerce.Core.Entities;
 using E_Commerce.Core.Entities.Identity;
 using E_Commerce.Core.Order_Aggregrate;
+
 using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Microsoft.EntityFrameworkCore;
+
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace E_Commerce.Repository.Data
 {
-    public  class StoreContextSeed
+    public class StoreContextSeed
     {
         public async static Task SeedAsync(StoreContext context)
         {
 
             var AppUserData = File.ReadAllText("../E-Commerce.Repository/Data/DataSeeding/AppUser.json");
-            var Users= JsonSerializer.Deserialize<List<AppUser>>(AppUserData);
-            if(Users.Count()>0)
+            var Users = JsonSerializer.Deserialize<List<AppUser>>(AppUserData);
+            if (Users.Count() > 0)
             {
-                if(context.AppUsers.Count()==0)
+                if (context.AppUsers.Count() == 0)
                 {
-                   
-                    foreach(var user in Users)
+
+                    foreach (var user in Users)
                     {
-                       context.AppUsers.Add(user);
+                        context.AppUsers.Add(user);
                     }
                     await context.SaveChangesAsync();
 
@@ -33,29 +31,29 @@ namespace E_Commerce.Repository.Data
             }
 
 
-                var CategoryData = File.ReadAllText("../E-Commerce.Repository/Data/DataSeeding/categories.json");
-                var Categories = JsonSerializer.Deserialize<List<Category>>(CategoryData);
-                if (Categories.Count() > 0)
+            var CategoryData = File.ReadAllText("../E-Commerce.Repository/Data/DataSeeding/categories.json");
+            var Categories = JsonSerializer.Deserialize<List<Category>>(CategoryData);
+            if (Categories.Count() > 0)
+            {
+                if (context.Categories.Count() == 0)
                 {
-                    if (context.Categories.Count() == 0)
+                    foreach (var category in Categories)
                     {
-                        foreach (var category in Categories)
-                        {
-                            context.Set<Category>().Add(category);
-                        }
-                        await context.SaveChangesAsync();
+                        context.Set<Category>().Add(category);
                     }
+                    await context.SaveChangesAsync();
                 }
+            }
 
 
 
             var ProductData = File.ReadAllText("../E-Commerce.Repository/Data/DataSeeding/Products.json");
-            var Products=JsonSerializer.Deserialize<List<Product>>(ProductData);
-            if(Products.Count() >0)
+            var Products = JsonSerializer.Deserialize<List<Product>>(ProductData);
+            if (Products.Count() > 0)
             {
-                if(context.Products.Count()==0)
+                if (context.Products.Count() == 0)
                 {
-                    foreach ( var product in Products )
+                    foreach (var product in Products)
                     {
                         context.Set<Product>().Add(product);
                     }
@@ -63,34 +61,30 @@ namespace E_Commerce.Repository.Data
                 }
             }
 
+            //var MakeReviewData = File.ReadAllText("../E-Commerce.Repository/Data/DataSeeding/MakeReviews.json");
+            //var MakeReviews = JsonSerializer.Deserialize<List<Review>>(MakeReviewData);
+            //if (MakeReviews.Count() > 0)
+            //{
+            //    if (context.MakeReviews.Count() == 0)
+            //    {
+            //        foreach (var Make in MakeReviews)
+            //        {
+            //            context.Set<Review>().Add(Make);
 
-
-         
-
-            var MakeReviewData = File.ReadAllText("../E-Commerce.Repository/Data/DataSeeding/MakeReviews.json");
-            var MakeReviews=JsonSerializer.Deserialize<List<MakeReview>>(MakeReviewData);
-            if(MakeReviews.Count() >0)
-            {
-                if(context.MakeReviews.Count()==0)
-                {
-                    foreach(var Make in MakeReviews)
-                    {
-                        context.Set<MakeReview>().Add(Make);
-
-                    }
-                    await context.SaveChangesAsync();
-                }
-            }
+            //        }
+            //        await context.SaveChangesAsync();
+            //    }
+            //}
 
             var deliveryData = File.ReadAllText("../E-Commerce.Repository/Data/DataSeeding/delivery.json");
-            var deliveries=JsonSerializer.Deserialize<List<DeliveryMethod>>(deliveryData);
-            if(deliveries.Count() >0)
+            var deliveries = JsonSerializer.Deserialize<List<DeliveryMethod>>(deliveryData);
+            if (deliveries.Count() > 0)
             {
-                if(context.deliveryMethods.Count()==0)
+                if (context.deliveryMethods.Count() == 0)
                 {
-                    foreach(var delivery in deliveries)
+                    foreach (var delivery in deliveries)
                     {
-                       if(delivery.Id==null)
+                        if (delivery.Id == null)
                         {
                             delivery.Id = Guid.NewGuid().ToString();
                         }
@@ -98,6 +92,21 @@ namespace E_Commerce.Repository.Data
                     }
                     await context.SaveChangesAsync();
                 }
+            }
+
+            var roles = await context.Roles.ToListAsync();
+            if (!roles.Any())
+            {
+                var rolesDataFile = File.ReadAllText("../E-Commerce.Repository/Data/DataSeeding/roles.json");
+                var rolesData = JsonSerializer.Deserialize<List<IdentityRole>>(rolesDataFile);
+                foreach (var role in rolesData)
+                {
+                    if (!await context.Roles.AnyAsync(r => r.Name == role.Name))
+                    {
+                        await context.Roles.AddAsync(role);
+                    }
+                }
+                await context.SaveChangesAsync();
             }
         }
         public static async Task SeedUserAsync(UserManager<AppUser> userManager)
@@ -115,6 +124,6 @@ namespace E_Commerce.Repository.Data
                 await userManager.CreateAsync(user, "Pa$$w0rd");
             }
 
-        }   
+        }
     }
 }

@@ -13,8 +13,8 @@ namespace E_Commerce.APIS.DTOs
         
         public int StockQuantity { get; set; }
         public decimal Price { get; set; }
-       
-
-       
+        public string CategoryId { set; get; }
+        public string CategoryName { set; get; }
+        public decimal Rate { set; get; }
     }
 }

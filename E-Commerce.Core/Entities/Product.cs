@@ -18,9 +18,7 @@ namespace E_Commerce.Core.Entities
         public int StockQuantity { get; set; }
         public decimal Price { get; set; }
         public string CategoryId { get; set; }
-        public Category category { get; set; }
-        public ICollection<MakeReview> MakeReviews { get; set; }
-        
-        public ICollection<AppUser>  users { get; set; }
+        public Category Category { get; set; }
+        public ICollection<Review> Reviews { get; set; }
     }
 }

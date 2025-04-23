@@ -17,5 +17,6 @@ namespace E_Commerce.Core.Specification
         public int Take { get; set; }
         public int Skip { get; set; }
         public bool IsPaginationEnabled { get; set; }
+        Expression<Func<T, bool>> DateFiltrationCriteria { get; set; }
     }
 }

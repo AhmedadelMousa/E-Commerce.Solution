@@ -1,23 +1,27 @@
 [
   {
-    "Id" :"VTRW",
-    "Name": "Tops",
-    "Description": "Shirts, T-shirts, and hoodies"
-
+    "Id": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "Name": "Men's Clothing",
+    "Description": "Clothing items for men including shirts, pants, and outerwear"
   },
   {
-    "Id" :"VBHJK",
-    "Name": "Bottoms",
-    "Description": "Jeans, trousers, and shorts"
+    "Id": "b2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d6e",
+    "Name": "Women's Clothing",
+    "Description": "Clothing items for women including tops, dresses, and skirts"
   },
   {
-    "Id": "OIKNF",
-    "Name": "Footwear",
-    "Description": "Shoes, sneakers, and sandals"
+    "Id": "c3d4e5f6-a7b8-4c9d-0e1f-2a3b4c5d6e7f",
+    "Name": "Children's Clothing",
+    "Description": "Clothing items for children aged 0-12 years"
   },
   {
-    "Id":"XZSWERG",
-    "Name": "Outerwear",
-    "Description": "Jackets, coats, and blazers"
+    "Id": "d4e5f6a7-b8c9-4d0e-1f2a-3b4c5d6e7f8g",
+    "Name": "Teen Clothing",
+    "Description": "Clothing items for teenagers aged 13-19 years"
+  },
+  {
+    "Id": "e5f6a7b8-c9d0-4e1f-2a3b-4c5d6e7f8g9h",
+    "Name": "Unisex Clothing",
+    "Description": "Clothing items suitable for all genders"
   }
 ]

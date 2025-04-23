@@ -20,30 +20,24 @@ namespace E_Commerce.Repository.Data.Configurations
             builder.Property(p => p.StockQuantity).IsRequired();
             builder.Property(p => p.Size).IsRequired();
             builder.Property(p => p.Colors).IsRequired();
-            builder.HasMany(p => p.users)
-                .WithMany(p => p.products).UsingEntity<MakeReview>(
-                j =>
-                {
-                    j.HasOne(e => e.appUser)
-                    .WithMany()
-                    .HasForeignKey(e => e.AppUserId)
-                    .OnDelete(DeleteBehavior.NoAction)
-                    .IsRequired();
-                    //j.HasOne(e => e.product)
-                    //.WithMany()
-                    //.HasForeignKey(e => e.ProductId)
-                    //.OnDelete(DeleteBehavior.NoAction).IsRequired();
-
-                   j.Property(p => p.Comment).IsRequired();
-                    j.Property(p => p.NumberOfPoint).IsRequired();
-                    j.Property(p => p.CreatedAt).IsRequired();
-
-                }
-                );
             //builder.HasOne(e => e.category)
             //    .WithMany().HasForeignKey(e => e.CategoryId)
             //    .OnDelete(DeleteBehavior.NoAction);
 
+        }
+    }
+    public class ReviewConfig : IEntityTypeConfiguration<Review>
+    {
+        public void Configure(EntityTypeBuilder<Review> builder)
+        {
+            builder.HasOne(r => r.AppUser)
+                .WithMany(u => u.Reviews)
+                .HasForeignKey(r => r.AppUserId)
+                .OnDelete(DeleteBehavior.NoAction);
+            builder.HasOne(r => r.Product)
+                .WithMany(p => p.Reviews)
+                .HasForeignKey(r => r.ProductId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

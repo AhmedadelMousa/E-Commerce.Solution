@@ -14,18 +14,23 @@ namespace E_Commerce.APIS.Helpers
                 .ForMember(p => p.ProductId, d => d.MapFrom(s => s.Id))
                 .ForMember(p => p.Name, d => d.MapFrom(s => s.Name))
                 .ForMember(p => p.Price, d => d.MapFrom(s => s.Price))
+                .ForMember(p => p.Rate, d => d.MapFrom(s => s.Reviews.Sum(r => Math.Floor((decimal)r.NumberOfPoint / s.Reviews.Count))))
+                .ForMember(p => p.CategoryName, d => d.MapFrom(s => s.Category.Name))
+                .ForMember(p => p.CategoryId, d => d.MapFrom(s => s.CategoryId))
                 .ForMember(p => p.StockQuantity, d => d.MapFrom(s => s.StockQuantity))
                 .ForMember(p => p.PictureUrl, d => d.MapFrom<PictureUrlResolver>());
             CreateMap<Product, ProductDetailsResponseDto>()
                  .ForMember(p => p.Name, d => d.MapFrom(s => s.Name))
                  .ForMember(p => p.Price, d => d.MapFrom(s => s.Price))
+                 .ForMember(p => p.CategoryName, d => d.MapFrom(s => s.Category.Name))
+                 .ForMember(p => p.CategoryId, d => d.MapFrom(s => s.CategoryId))
                  .ForMember(p => p.PictureUrl, d => d.MapFrom<PictureUrlResolver>())
-                 .ForMember(p => p.MakeReviews, d => d.MapFrom(s => s.MakeReviews))
+                 .ForMember(p => p.Reviews, d => d.MapFrom(s => s.Reviews))
                  .ForMember(p => p.StockQuantity, d => d.MapFrom(s => s.StockQuantity))
                  .ForMember(p => p.Colors, d => d.MapFrom(s => s.Colors))
                  .ForMember(p => p.Description, d => d.MapFrom(s => s.Description))
                  .ForMember(p => p.Size, d => d.MapFrom(s => s.Size));
-            CreateMap<MakeReview, MakeReviewDto>()
+            CreateMap<Review, MakeReviewDto>()
                 .ForMember(p => p.Comment, d => d.MapFrom(s => s.Comment))
                 .ForMember(p => p.NumberOfPoint, d => d.MapFrom(s => s.NumberOfPoint))
                 .ForMember(p => p.CreatedAt, d => d.MapFrom(s => s.CreatedAt))
@@ -71,9 +76,9 @@ namespace E_Commerce.APIS.Helpers
             CreateMap<Order, OrderDetailsDto>()
                 .ForMember(p => p.PaymentMethod, d => d.MapFrom(s => s.paymentMethod.ToString()))
                 .ForMember(p => p.ShippingAddress, d => d.MapFrom(s => s.ShippingAddress))
-                 .ForMember(dest => dest.Total,
+                .ForMember(dest => dest.Total,
                 opt => opt.MapFrom(src => src.SubTotal + src.DeliveryMethod.Cost))
-                 .ForMember(p => p.DeliveryMethodId, d => d.MapFrom(s => s.DeliveryMethodId));
+                .ForMember(p => p.DeliveryMethodId, d => d.MapFrom(s => s.DeliveryMethodId));
      
 
 

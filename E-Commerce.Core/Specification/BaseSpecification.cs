@@ -1,4 +1,5 @@
 ﻿using E_Commerce.Core.Entities;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,13 +11,14 @@ namespace E_Commerce.Core.Specification
 {
     public class BaseSpecification<T> : ISpecification<T> where T : BaseEntity
     {
-        public Expression<Func<T, bool>> Criteria { get ; set ; }
-        public List<Expression<Func<T, object>>> Includes { get ; set ; }=  new List<Expression<Func<T, object>>>();
-        public Expression<Func<T, object>> OrderBy { get ; set; }
-        public Expression<Func<T, object>> OrderByDesc { get ; set ; }
-        public int Take { get ; set ; }
+        public Expression<Func<T, bool>> Criteria { get; set; }
+        public List<Expression<Func<T, object>>> Includes { get; set; } = new List<Expression<Func<T, object>>>();
+        public Expression<Func<T, object>> OrderBy { get; set; }
+        public Expression<Func<T, object>> OrderByDesc { get; set; }
+        public Expression<Func<T, bool>> DateFiltrationCriteria { set; get; }
+        public int Take { get; set; }
         public int Skip { get; set; }
-        public bool IsPaginationEnabled { get ; set; }
+        public bool IsPaginationEnabled { get; set; }
         public BaseSpecification()
         {
             // Criteria= null
@@ -41,6 +43,10 @@ namespace E_Commerce.Core.Specification
             IsPaginationEnabled = true;
             Take = take;
             Skip = skip;
+        }
+        public void ApplyDateFiltration(DateTime dateFrom, DateTime? dateTo = null)
+        {
+            DateFiltrationCriteria = (e) => e.CreatedAt > dateFrom && (!dateTo.HasValue || dateTo.Value > e.CreatedAt);
         }
     }
 }

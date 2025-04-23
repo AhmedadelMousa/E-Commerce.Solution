@@ -1,6 +1,4 @@
-﻿using E_Commerce.Core.Entities;
-
-namespace E_Commerce.APIS.DTOs
+﻿namespace E_Commerce.APIS.DTOs
 {
     public class ProductDetailsResponseDto
     {
@@ -11,6 +9,8 @@ namespace E_Commerce.APIS.DTOs
         public string Colors { get; set; }
         public int StockQuantity { get; set; }
         public decimal Price { get; set; }
-        public List<MakeReviewDto> MakeReviews { get; set; }
+        public List<MakeReviewDto> Reviews { get; set; }
+        public string CategoryName { get; internal set; }
+        public string CategoryId { get; internal set; }
     }
 }

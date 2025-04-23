@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
+
 using E_Commerce.APIS.DTOs;
 using E_Commerce.APIS.Errors;
 using E_Commerce.APIS.Helpers;
 using E_Commerce.Core.Entities;
 using E_Commerce.Core.Repositories.Contract;
 using E_Commerce.Core.Specification.ProdutSpecification;
+
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,18 +23,20 @@ namespace E_Commerce.APIS.Controllers
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
+
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<ProductsDto>>> GetProducts([FromQuery] ProductSpecParam specParam)
+        public async Task<ActionResult<Pagination<ProductsDto>>> GetProducts([FromQuery] ProductSpecParam specParam)
         {
             var spec = new ProductWithCategorySpec(specParam);
+            spec.Includes.Add(p => p.Category);
+            spec.Includes.Add(p => p.Reviews);
             var products = await _unitOfWork.Repository<Product>().GetAllWithSpecAsync(spec);
             var data = _mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductsDto>>(products);
             var countSpec = new ProductWithFilterationForCountSpec(specParam);
             var count = await _unitOfWork.Repository<Product>().GetCountAsync(countSpec);
-            return Ok(new Pagination<ProductsDto>(specParam.PageSize, specParam.PageIndex, count, data));
-
-
+            return Ok(new Pagination<ProductsDto>(data.Count, specParam.PageIndex, count, data));
         }
+
         [HttpPost]
         public async Task<ActionResult> CreateProduct([FromForm] CreateProductDto productDto)
         {
@@ -78,11 +82,11 @@ namespace E_Commerce.APIS.Controllers
             return Ok(new { message = "Product Created Succesfully" });
         }
         [HttpGet("{Id}")]
-        public async Task<ActionResult<ProductDetailsResponseDto>>GetProductDetails([FromRoute]string Id)
+        public async Task<ActionResult<ProductDetailsResponseDto>> GetProductDetails([FromRoute] string Id)
         {
             var spec = new ProductWithCategorySpec(Id);
-           
-            var product= await _unitOfWork.Repository<Product>().GetWithSpecAsync(spec);
+
+            var product = await _unitOfWork.Repository<Product>().GetWithSpecAsync(spec);
             if (product == null)
                 return NotFound(new ApiResponse(404, "Product Not Found"));
             var specDto = _mapper.Map<Product, ProductDetailsResponseDto>(product);
@@ -145,14 +149,14 @@ namespace E_Commerce.APIS.Controllers
             return Ok(new { message = "Product Updated Successfully" });
         }
         [HttpDelete("{Id}")]
-        public async Task<ActionResult> DeleteProduct([FromRoute]string Id)
+        public async Task<ActionResult> DeleteProduct([FromRoute] string Id)
         {
-            var product= await _unitOfWork.Repository<Product>().GetByIdAsync(Id);
+            var product = await _unitOfWork.Repository<Product>().GetByIdAsync(Id);
             if (product == null) return NotFound(new ApiResponse(404, "Product Not Found"));
             //Delete Img
-            if(!string.IsNullOrEmpty(product.PictureUrl))
+            if (!string.IsNullOrEmpty(product.PictureUrl))
             {
-                var imagePath= Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", product.PictureUrl);
+                var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", product.PictureUrl);
                 if (System.IO.File.Exists(imagePath))
                 {
                     System.IO.File.Delete(imagePath);

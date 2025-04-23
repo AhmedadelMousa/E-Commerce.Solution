@@ -20,7 +20,7 @@ namespace E_Commerce.APIS.Controllers
             _mapper = mapper;
         }
         [HttpGet]
-        public async Task<ActionResult<CategoriesDto>> GetAllCategories()
+        public async Task<ActionResult<IEnumerable<CategoriesDto>>> GetAllCategories()
         {
             var categories= await _unitOfWork.Repository<Category>().GetAllAsync();
             var data =  _mapper.Map<IReadOnlyList<Category>, IReadOnlyList<CategoriesDto>>(categories);
