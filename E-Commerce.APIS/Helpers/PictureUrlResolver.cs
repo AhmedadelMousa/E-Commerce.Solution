@@ -6,7 +6,7 @@ using E_Commerce.Core.Order_Aggregrate;
 namespace E_Commerce.APIS.Helpers
 {
     public class PictureUrlResolver 
-        : IValueResolver<Product, ProductDetailsResponseDto, string>, IValueResolver<Product, ProductsDto, string>,IValueResolver<OrderItem, OrderItemDto, string>
+        : IValueResolver<Product, ProductDetailsResponseDto, string>, IValueResolver<Product, ProductsDto, string>,IValueResolver<ProductItemOrdered, ProductItemOrderedDto, string>
 
     {
         private readonly IConfiguration _configuration;
@@ -25,9 +25,9 @@ namespace E_Commerce.APIS.Helpers
             return GetProductPicture(source.PictureUrl);
         }
 
-        public string Resolve(OrderItem source, OrderItemDto destination, string destMember, ResolutionContext context)
+        public string Resolve(ProductItemOrdered source, ProductItemOrderedDto destination, string destMember, ResolutionContext context)
         {
-            return GetProductPicture(source.Product.ProductUrl);
+            return GetProductPicture(source.ProductUrl);
         }
 
         private string GetProductPicture(string pictureUrl)

@@ -58,9 +58,9 @@ namespace E_Commerce.APIS.Helpers
                 .ForMember(p => p.DeliveryMethod, d => d.MapFrom(s => s.DeliveryMethod.ShortName))
                 ;
             CreateMap<OrderItem,OrderItemDto>()
-                 .ForMember(p => p.ProductName, d => d.MapFrom(s => s.Product.ProductName))
-                  .ForMember(p => p.ProductId, d => d.MapFrom(s => s.Product.ProductId))
-                   .ForMember(p => p.ProductUrl, d => d.MapFrom(s => s.Product.ProductUrl))
+                 .ForMember(p => p.Product, d => d.MapFrom(s => s.Product))
+                  .ForMember(p => p.Quantity, d => d.MapFrom(s => s.Quantity))
+                   .ForMember(p => p.Price, d => d.MapFrom(s => s.Price))
                 ;
             CreateMap<Order, OrderDto>()
                 .ForMember(p => p.DeliveryMethodId, d => d.MapFrom(s => s.DeliveryMethodId)).ReverseMap()
@@ -79,11 +79,11 @@ namespace E_Commerce.APIS.Helpers
                 .ForMember(dest => dest.Total,
                 opt => opt.MapFrom(src => src.SubTotal + src.DeliveryMethod.Cost))
                 .ForMember(p => p.DeliveryMethodId, d => d.MapFrom(s => s.DeliveryMethodId));
-            CreateMap<OrderItem, OrderItemDto>()
+            CreateMap<ProductItemOrdered, ProductItemOrderedDto>()
                   .ForMember(p => p.ProductUrl, d => d.MapFrom<PictureUrlResolver>())
-                   .ForMember(p => p.ProductId, d => d.MapFrom(s => s.Product.ProductId))
-                    .ForMember(p => p.ProductName, d => d.MapFrom(s => s.Product.ProductName))
-                    .ForMember(p => p.Quantity, d => d.MapFrom(s => s.Quantity));
+                   .ForMember(p => p.ProductId, d => d.MapFrom(s => s.ProductId))
+                    .ForMember(p => p.ProductName, d => d.MapFrom(s => s.ProductName));
+                   
 
 
 
