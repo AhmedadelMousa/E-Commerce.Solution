@@ -79,8 +79,11 @@ namespace E_Commerce.APIS.Helpers
                 .ForMember(dest => dest.Total,
                 opt => opt.MapFrom(src => src.SubTotal + src.DeliveryMethod.Cost))
                 .ForMember(p => p.DeliveryMethodId, d => d.MapFrom(s => s.DeliveryMethodId));
-            CreateMap<OrderItem,OrderItemDto>()
-                  .ForMember(p => p.ProductUrl, d => d.MapFrom<PictureUrlResolver>());
+            CreateMap<OrderItem, OrderItemDto>()
+                  .ForMember(p => p.ProductUrl, d => d.MapFrom<PictureUrlResolver>())
+                   .ForMember(p => p.ProductId, d => d.MapFrom(s => s.Product.ProductId))
+                    .ForMember(p => p.ProductName, d => d.MapFrom(s => s.Product.ProductName))
+                    .ForMember(p => p.Quantity, d => d.MapFrom(s => s.Quantity));
 
 
 
