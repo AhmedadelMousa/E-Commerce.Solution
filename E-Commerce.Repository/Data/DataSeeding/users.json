@@ -1,0 +1,40 @@
+[
+  {
+    "Id": "5e2f18e3-758b-4b8c-8988-daf3a4f457db",
+    "DisplayName": "admin",
+    "UserName": "admin@gmail.com",
+    "NormalizedUserName": "ADMIN@GMAIL.COM",
+    "Email": "admin@gmail.com",
+    "NormalizedEmail": "ADMIN@GMAIL.COM",
+    "EmailConfirmed": false,
+    "PasswordHash": "AQAAAAIAAYagAAAAEDiE1bpZ6WwqfyFYnmwqY+Y/zCJhgtgZBdDzSKkE6PivF7HTxdOLdSd+EWFbx91VMg==",
+    "SecurityStamp": "PB2IHDWGR37TEK5Q62YBF2ZNZZEBUQSB",
+    "ConcurrencyStamp": "23d7eebe-fc6f-4235-9264-1bac6148136e",
+    "PhoneNumber": null,
+    "PhoneNumberConfirmed": false,
+    "TwoFactorEnabled": false,
+    "LockoutEnd": null,
+    "LockoutEnabled": true,
+    "AccessFailedCount": 0,
+    "Role": 1
+  },
+  {
+    "Id": "6B2064B8-8197-4E75-A6FD-EC6C70FE1DDD",
+    "DisplayName": "user",
+    "UserName": "user@gmail.com",
+    "NormalizedUserName": "USER@GMAIL.COM",
+    "Email": "user@gmail.com",
+    "NormalizedEmail": "USER@GMAIL.COM",
+    "EmailConfirmed": false,
+    "PasswordHash": "AQAAAAIAAYagAAAAEDiE1bpZ6WwqfyFYnmwqY+Y/zCJhgtgZBdDzSKkE6PivF7HTxdOLdSd+EWFbx91VMg==",
+    "SecurityStamp": "PB2IHDWGR37TEK5Q62YBF2ZNZZEBUQSB",
+    "ConcurrencyStamp": "596936A9-6B4A-4CE9-9432-A6614E15EF9E",
+    "PhoneNumber": null,
+    "PhoneNumberConfirmed": false,
+    "TwoFactorEnabled": false,
+    "LockoutEnd": null,
+    "LockoutEnabled": true,
+    "AccessFailedCount": 0,
+    "Role": 0
+  }
+]

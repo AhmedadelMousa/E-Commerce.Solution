@@ -1,20 +1,20 @@
 [
   {
-    "id": 1,
-    "name": "Admin",
-    "normalizedName": "ADMIN",
-    "concurrencyStamp": "a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6"
+    "Id": "CD4D31DB-79F3-4870-B815-F74444DC4126",
+    "Name": "Admin",
+    "NormalizedName": "ADMIN",
+    "ConcurrencyStamp": "a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6"
   },
   {
-    "id": 2,
-    "name": "User",
-    "normalizedName": "USER",
-    "concurrencyStamp": "a7b8c9d0-e1f2-3g4h-5i6j-k7l8m9n0o1p2"
+    "Id": "E0BC5FD6-6373-4E9D-8B0B-9D19800B6375",
+    "Name": "User",
+    "NormalizedName": "USER",
+    "ConcurrencyStamp": "a7b8c9d0-e1f2-3g4h-5i6j-k7l8m9n0o1p2"
   },
   {
-    "id": 3,
-    "name": "Guest",
-    "normalizedName": "GUEST",
-    "concurrencyStamp": "a3b4c5d6-e7f8-9g0h-i1j2-k3l4m5n6o7p8"
+    "Id": "41D84D90-E21B-44DD-94D1-EB11DB03DF14",
+    "Name": "Guest",
+    "NormalizedName": "GUEST",
+    "ConcurrencyStamp": "a3b4c5d6-e7f8-9g0h-i1j2-k3l4m5n6o7p8"
   }
 ]

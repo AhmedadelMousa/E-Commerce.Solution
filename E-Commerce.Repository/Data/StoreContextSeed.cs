@@ -14,23 +14,6 @@ namespace E_Commerce.Repository.Data
         public async static Task SeedAsync(StoreContext context)
         {
 
-            var AppUserData = File.ReadAllText("../E-Commerce.Repository/Data/DataSeeding/AppUser.json");
-            var Users = JsonSerializer.Deserialize<List<AppUser>>(AppUserData);
-            if (Users.Count() > 0)
-            {
-                if (context.AppUsers.Count() == 0)
-                {
-
-                    foreach (var user in Users)
-                    {
-                        context.AppUsers.Add(user);
-                    }
-                    await context.SaveChangesAsync();
-
-                }
-            }
-
-
             var CategoryData = File.ReadAllText("../E-Commerce.Repository/Data/DataSeeding/categories.json");
             var Categories = JsonSerializer.Deserialize<List<Category>>(CategoryData);
             if (Categories.Count() > 0)
@@ -106,6 +89,44 @@ namespace E_Commerce.Repository.Data
                         await context.Roles.AddAsync(role);
                     }
                 }
+                await context.SaveChangesAsync();
+            }
+
+            var users = await context.Users.ToListAsync();
+            if (!users.Any())
+            {
+                var usersDataFile = File.ReadAllText("../E-Commerce.Repository/Data/DataSeeding/users.json");
+                var usersData = JsonSerializer.Deserialize<List<AppUser>>(usersDataFile);
+                foreach (var user in usersData)
+                {
+                    if (!await context.Users.AnyAsync(r => r.Id == user.Id))
+                    {
+                        await context.Users.AddAsync(user);
+                        if(user.Role == Core.Enums.AppRole.User)
+                        {
+                            var role = await context.Roles.FirstOrDefaultAsync(r => r.Name == user.Role.ToString());
+                            await context.UserRoles.AddAsync(new()
+                            {
+                                RoleId = role.Id,
+                                UserId = user.Id
+                            });
+                        }else if (user.Role == Core.Enums.AppRole.Admin)
+                        {
+                            var role = await context.Roles.FirstOrDefaultAsync(r => r.Name == user.Role.ToString());
+                            await context.UserRoles.AddAsync(new()
+                            {
+                                RoleId = role.Id,
+                                UserId = user.Id
+                            });
+                        }
+                    }
+                }
+                //var userRolesDataFile = File.ReadAllText("../E-Commerce.Repository/Data/DataSeeding/user-roles.json");
+                //var userRolesData = JsonSerializer.Deserialize<List<IdentityUserRole<string>>>(usersDataFile);
+                //foreach (var role in userRolesData)
+                //{
+                //    await context.UserRoles.AddAsync(role);
+                //}
                 await context.SaveChangesAsync();
             }
         }

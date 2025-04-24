@@ -40,7 +40,7 @@ namespace E_Commerce.Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("E_Commerce.Core.Entities.Identity.Address", b =>
@@ -80,7 +80,7 @@ namespace E_Commerce.Repository.Migrations
                     b.HasIndex("AppUserId")
                         .IsUnique();
 
-                    b.ToTable("Address");
+                    b.ToTable("Address", (string)null);
                 });
 
             modelBuilder.Entity("E_Commerce.Core.Entities.Identity.AppUser", b =>
@@ -199,7 +199,7 @@ namespace E_Commerce.Repository.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("E_Commerce.Core.Entities.Review", b =>
@@ -232,7 +232,7 @@ namespace E_Commerce.Repository.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("MakeReviews");
+                    b.ToTable("MakeReviews", (string)null);
                 });
 
             modelBuilder.Entity("E_Commerce.Core.Order_Aggregrate.DeliveryMethod", b =>
@@ -260,7 +260,7 @@ namespace E_Commerce.Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("deliveryMethods");
+                    b.ToTable("deliveryMethods", (string)null);
                 });
 
             modelBuilder.Entity("E_Commerce.Core.Order_Aggregrate.Order", b =>
@@ -298,7 +298,7 @@ namespace E_Commerce.Repository.Migrations
 
                     b.HasIndex("DeliveryMethodId");
 
-                    b.ToTable("orders");
+                    b.ToTable("orders", (string)null);
                 });
 
             modelBuilder.Entity("E_Commerce.Core.Order_Aggregrate.OrderItem", b =>
@@ -322,7 +322,7 @@ namespace E_Commerce.Repository.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("orderItems");
+                    b.ToTable("orderItems", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -537,7 +537,7 @@ namespace E_Commerce.Repository.Migrations
 
                             b1.HasKey("OrderId");
 
-                            b1.ToTable("orders");
+                            b1.ToTable("orders", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("OrderId");
@@ -576,7 +576,7 @@ namespace E_Commerce.Repository.Migrations
 
                             b1.HasKey("OrderItemId");
 
-                            b1.ToTable("orderItems");
+                            b1.ToTable("orderItems", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("OrderItemId");
