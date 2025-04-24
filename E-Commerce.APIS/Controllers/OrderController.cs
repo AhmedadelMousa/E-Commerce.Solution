@@ -84,10 +84,10 @@ namespace E_Commerce.APIS.Controllers
         }
 
         private async Task<ActionResult<OrderToReturnDto>> HandleOrderCreation(
-    string appUserId,
-    string deliveryMethodId,
-    AddressDto addressDto,
-    Func<AddressOrder, Task<Order>> createOrderFunc)
+            string appUserId,
+            string deliveryMethodId,
+            AddressDto addressDto,
+            Func<AddressOrder, Task<Order>> createOrderFunc)
         {
             var deliveryMethod = await _unitOfWork.Repository<DeliveryMethod>().GetByIdAsync(deliveryMethodId);
             if (deliveryMethod == null)
