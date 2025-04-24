@@ -10,7 +10,7 @@ namespace E_Commerce.APIS.DTOs
         public OrderStatus Status { get; set; }
         public AddressDto ShippingAddress { get; set; }
         public string? DeliveryMethodId { get; set; }
-        public ICollection<OrderItem> Items { get; set; } 
+        public ICollection<OrderItemDto> Items { get; set; } 
         public decimal SubTotal { get; set; }
         public decimal Total { get; set; }
         public string PaymentMethod { get; set; }
