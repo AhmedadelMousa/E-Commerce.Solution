@@ -94,7 +94,7 @@ namespace E_Commerce.APIS.Controllers
 
         }
         [HttpPut("{Id}")]
-        public async Task<ActionResult> UpdateProduct([FromRoute] string Id, [FromForm] UpdateProductDto productDto)
+        public async Task<ActionResult> UpdateProduct([FromRoute] string Id, [FromBody] UpdateProductDto productDto)
         {
             var product = await _unitOfWork.Repository<Product>().GetByIdAsync(Id);
             if (product == null)
