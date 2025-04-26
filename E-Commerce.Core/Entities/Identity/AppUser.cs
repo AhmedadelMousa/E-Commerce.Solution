@@ -11,5 +11,6 @@ namespace E_Commerce.Core.Entities.Identity
         public ICollection<Review> Reviews { get; set; }
         public Address Address { get; set; }
         public AppRole Role { get; set; }
+        public string BasketId { get; set; }= Guid.NewGuid().ToString();
     }
 }

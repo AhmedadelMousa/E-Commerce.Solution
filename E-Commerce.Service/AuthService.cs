@@ -35,6 +35,12 @@ namespace E_Commerce.Service
             {
                 authClaims.Add(new Claim(ClaimTypes.Role, role));
             }
+            if(string.IsNullOrEmpty(user.BasketId))
+            {
+                user.BasketId = Guid.NewGuid().ToString();
+                await userManager.UpdateAsync(user);
+            }
+            authClaims.Add(new Claim("BasketId",user.BasketId));
             var authKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:AuthKey"]));
             var Token = new JwtSecurityToken(
                 audience: _configuration["JWT:ValidAudience"],

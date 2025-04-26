@@ -83,7 +83,13 @@ namespace E_Commerce.APIS.Helpers
                   .ForMember(p => p.ProductUrl, d => d.MapFrom<PictureUrlResolver>())
                    .ForMember(p => p.ProductId, d => d.MapFrom(s => s.ProductId))
                     .ForMember(p => p.ProductName, d => d.MapFrom(s => s.ProductName));
-                   
+            CreateMap<AddItemDto, BasketItem>()
+                .ForMember(p => p.Id, d => d.MapFrom(s => s.ProductId))
+                 .ForMember(p => p.Quentity, d => d.MapFrom(s => s.Quantity));
+
+
+
+
 
 
 
