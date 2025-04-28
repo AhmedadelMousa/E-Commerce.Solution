@@ -12,5 +12,6 @@ namespace E_Commerce.Core.Entities.Identity
         public Address Address { get; set; }
         public AppRole Role { get; set; }
         public string BasketId { get; set; }= Guid.NewGuid().ToString();
+        public string FavoriteId { get; set; } = Guid.NewGuid().ToString();
     }
 }

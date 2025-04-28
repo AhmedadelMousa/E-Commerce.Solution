@@ -5,6 +5,7 @@ using E_Commerce.Core.Entities;
 using E_Commerce.Core.Repositories.Contract;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace E_Commerce.APIS.Controllers
 {
@@ -22,8 +23,13 @@ namespace E_Commerce.APIS.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CategoriesDto>>> GetAllCategories()
         {
-            var categories= await _unitOfWork.Repository<Category>().GetAllAsync();
-            var data =  _mapper.Map<IReadOnlyList<Category>, IReadOnlyList<CategoriesDto>>(categories);
+            var categories = await _unitOfWork.Repository<Category>().GetAllAsync();
+            var categoryIds= categories.Select(c => c.Id).ToList();
+            var products= await _unitOfWork.Repository<Product>().GetAllAsync();
+            var countByCategory= products.GroupBy(p=>p.CategoryId).ToDictionary(g => g.Key, g => g.Count());
+
+
+            var data =  _mapper.Map<IReadOnlyList<Category>, IReadOnlyList<CategoriesDto>>(categories, opt => opt.Items["countByCategory"] = countByCategory);
             return Ok(data);
         }
         [HttpPost]

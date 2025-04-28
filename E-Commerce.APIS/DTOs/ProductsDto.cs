@@ -16,5 +16,7 @@ namespace E_Commerce.APIS.DTOs
         public string CategoryId { set; get; }
         public string CategoryName { set; get; }
         public decimal Rate { set; get; }
+        public bool IsInFav { get; set; }
+        public bool IsInCart { get; set; }
     }
 }

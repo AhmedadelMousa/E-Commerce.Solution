@@ -41,6 +41,14 @@ namespace E_Commerce.Service
                 await userManager.UpdateAsync(user);
             }
             authClaims.Add(new Claim("BasketId",user.BasketId));
+
+            if(string.IsNullOrEmpty(user.FavoriteId))
+            {
+                user.FavoriteId = Guid.NewGuid().ToString();
+                await userManager.UpdateAsync(user);
+            }
+            authClaims.Add(new Claim("FavoriteId", user.FavoriteId));
+
             var authKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:AuthKey"]));
             var Token = new JwtSecurityToken(
                 audience: _configuration["JWT:ValidAudience"],

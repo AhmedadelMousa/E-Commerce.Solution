@@ -13,5 +13,7 @@
         public List<MakeReviewDto> Reviews { get; set; }
         public string CategoryName { get; internal set; }
         public string CategoryId { get; internal set; }
+        public bool IsInFav { get; set; }
+        public bool IsInCart { get; set; }
     }
 }

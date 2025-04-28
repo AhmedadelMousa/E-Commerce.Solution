@@ -14,7 +14,7 @@ namespace E_Commerce.Repository
         public static IQueryable<TEntity> GetQuery(IQueryable<TEntity> innerQuery,ISpecification<TEntity> spec)
         {
 
-            var query = innerQuery; //_store.set<product>(),TEntity=product
+            var query = innerQuery; 
                                     // if there is where condition
             if (spec.Criteria is not null)
             {

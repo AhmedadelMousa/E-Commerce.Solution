@@ -4,11 +4,15 @@ using E_Commerce.APIS.DTOs;
 using E_Commerce.APIS.Errors;
 using E_Commerce.APIS.Helpers;
 using E_Commerce.Core.Entities;
+using E_Commerce.Core.Entities.Basket;
+using E_Commerce.Core.Entities.Favorite;
 using E_Commerce.Core.Repositories.Contract;
 using E_Commerce.Core.Specification.ProdutSpecification;
-
+using E_Commerce.Repository.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace E_Commerce.APIS.Controllers
 {
@@ -17,11 +21,13 @@ namespace E_Commerce.APIS.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly StoreContext _context;
 
-        public ProductController(IUnitOfWork unitOfWork, IMapper mapper)
+        public ProductController(IUnitOfWork unitOfWork, IMapper mapper,StoreContext context)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _context = context;
         }
 
         [HttpGet]
@@ -31,7 +37,14 @@ namespace E_Commerce.APIS.Controllers
             spec.Includes.Add(p => p.Category);
             spec.Includes.Add(p => p.Reviews);
             var products = await _unitOfWork.Repository<Product>().GetAllWithSpecAsync(spec);
-            var data = _mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductsDto>>(products);
+
+            var (cartProductIds, favoriteProductIds) = await GetUserCartAndFavoriteIdsAsync();
+            var data = _mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductsDto>>(products,
+                opt =>
+                { opt.Items["CartProductIds"] = cartProductIds;
+                    opt.Items["FavoriteProductIds"] = favoriteProductIds;
+                    }
+                );
             var countSpec = new ProductWithFilterationForCountSpec(specParam);
             var count = await _unitOfWork.Repository<Product>().GetCountAsync(countSpec);
             return Ok(new Pagination<ProductsDto>(data.Count, specParam.PageIndex, count, data));
@@ -89,7 +102,13 @@ namespace E_Commerce.APIS.Controllers
             var product = await _unitOfWork.Repository<Product>().GetWithSpecAsync(spec);
             if (product == null)
                 return NotFound(new ApiResponse(404, "Product Not Found"));
-            var specDto = _mapper.Map<Product, ProductDetailsResponseDto>(product);
+            var (cartProductIds, favoriteProductIds) = await GetUserCartAndFavoriteIdsAsync();
+            var specDto = _mapper.Map<Product, ProductDetailsResponseDto>(product,
+                opt =>
+                {
+                    opt.Items["CartProductIds"] = cartProductIds;
+                    opt.Items["FavoriteProductIds"] = favoriteProductIds;
+                });
             return Ok(specDto);
 
         }
@@ -100,7 +119,6 @@ namespace E_Commerce.APIS.Controllers
             if (product == null)
                 return NotFound(new ApiResponse(404, "Product Not Found"));
 
-            // تحديث البيانات فقط إذا تم إرسالها
             if (!string.IsNullOrEmpty(productDto.Name)) product.Name = productDto.Name;
             if (!string.IsNullOrEmpty(productDto.Description)) product.Description = productDto.Description;
             if (!string.IsNullOrEmpty(productDto.Size)) product.Size = productDto.Size;
@@ -112,7 +130,6 @@ namespace E_Commerce.APIS.Controllers
                 product.Price = productDto.Price.GetValueOrDefault();
             if (!string.IsNullOrEmpty(productDto.CategoryId)) product.CategoryId = productDto.CategoryId;
 
-            // ✅ تحديث الصورة إذا تم إرسال صورة جديدة
             if (productDto.PictureUrl != null && productDto.PictureUrl.Length > 0)
             {
                 var uploadFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Img/products");
@@ -121,7 +138,6 @@ namespace E_Commerce.APIS.Controllers
                     Directory.CreateDirectory(uploadFolder);
                 }
 
-                // ✅ حذف الصورة القديمة إذا كانت موجودة
                 if (!string.IsNullOrEmpty(product.PictureUrl))
                 {
                     var oldImagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", product.PictureUrl);
@@ -139,7 +155,7 @@ namespace E_Commerce.APIS.Controllers
                     await productDto.PictureUrl.CopyToAsync(stream);
                 }
 
-                // تحديث رابط الصورة
+           
                 product.PictureUrl = $"Img/products/{fileName}";
             }
 
@@ -165,6 +181,37 @@ namespace E_Commerce.APIS.Controllers
             _unitOfWork.Repository<Product>().DeleteAsync(product);
             await _unitOfWork.CompleteAsync();
             return Ok(new { message = "Product Deleted Successfully" });
+        }
+
+        private async Task<(List<string> CartProductIds, List<string> FavoriteProductIds)> GetUserCartAndFavoriteIdsAsync()
+        {
+            var cartProductIds = new List<string>();
+            var favoriteProductIds = new List<string>();
+
+            
+            var basketId = User.FindFirstValue("BasketId");
+            var favoriteId = User.FindFirstValue("FavoriteId");
+
+            
+            if (!string.IsNullOrEmpty(basketId))
+            {
+                cartProductIds = await _context.Set<BasketItem>()
+                    .Where(b => b.Id == basketId)
+                    .Select(b => b.Id)
+                    .ToListAsync();
+            }
+
+            
+            if (!string.IsNullOrEmpty(favoriteId))
+            {
+                favoriteProductIds = await _context.Set<FavoriteItem>()
+                    .Where(b => b.Id == favoriteId)
+                    .Select(b => b.Id)
+                    .ToListAsync();
+
+            }
+
+            return (cartProductIds, favoriteProductIds);
         }
     }
 }
