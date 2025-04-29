@@ -139,6 +139,16 @@ namespace E_Commerce.APIS.Helpers
             CreateMap<AddItemDto, FavoriteItem>()
                .ForMember(p => p.Id, d => d.MapFrom(s => s.ProductId))
                 .ForMember(p => p.Quantity, d => d.MapFrom(s => s.Quantity));
+            CreateMap<BasketItem, BasketItemDto>()
+                 .ForMember(p => p.PictureUrl, d => d.MapFrom<PictureUrlResolver>())
+                 ;
+            CreateMap<CustomerBasket, CustomerBasketDto>()
+                .ForMember(p=>p.BasketItems,d=>d.MapFrom(s=>s.Items));
+            CreateMap<FavoriteItem, FavoriteItem>()
+                 .ForMember(p => p.PictureUrl, d => d.MapFrom<PictureUrlResolver>());
+            CreateMap<CustomerFavorite, CustomerFavoriteDto>()
+                .ForMember(p => p.Items, d => d.MapFrom(s => s.Items));
+
 
 
 

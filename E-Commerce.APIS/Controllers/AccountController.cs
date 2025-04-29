@@ -81,7 +81,9 @@ namespace E_Commerce.APIS.Controllers
                     DisplayName = register.UserName,
                     Email = register.Email,
                     UserName = register.Email,
-                    Role = AppRole.User
+                    Role = AppRole.User,
+                    FavoriteId=Guid.NewGuid().ToString(),
+                    BasketId=Guid.NewGuid().ToString(),
                 };
 
                 var result = await _user.CreateAsync(user, register.Password);

@@ -22,12 +22,16 @@ namespace E_Commerce.APIS.Controllers
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly StoreContext _context;
+        private readonly IBasketRepository _basketRepository;
+        private readonly IFavoriteRepository _favoriteRepository;
 
-        public ProductController(IUnitOfWork unitOfWork, IMapper mapper,StoreContext context)
+        public ProductController(IUnitOfWork unitOfWork, IMapper mapper,StoreContext context,IBasketRepository basketRepository,IFavoriteRepository favoriteRepository)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _context = context;
+            _basketRepository = basketRepository;
+      _favoriteRepository = favoriteRepository;
         }
 
         [HttpGet]
@@ -188,26 +192,28 @@ namespace E_Commerce.APIS.Controllers
             var cartProductIds = new List<string>();
             var favoriteProductIds = new List<string>();
 
-            
-            var basketId = User.FindFirstValue("BasketId");
+
+            var basketId = User.FindFirst("BasketId")?.Value;
             var favoriteId = User.FindFirstValue("FavoriteId");
 
             
             if (!string.IsNullOrEmpty(basketId))
             {
-                cartProductIds = await _context.Set<BasketItem>()
-                    .Where(b => b.Id == basketId)
-                    .Select(b => b.Id)
-                    .ToListAsync();
+              var basket= await _basketRepository.GetBasketAsync(basketId);
+                if(basket!=null)
+                {
+                    cartProductIds= basket.Items.Select(x => x.Id).ToList();
+                }
             }
 
             
             if (!string.IsNullOrEmpty(favoriteId))
             {
-                favoriteProductIds = await _context.Set<FavoriteItem>()
-                    .Where(b => b.Id == favoriteId)
-                    .Select(b => b.Id)
-                    .ToListAsync();
+                var Fav= await _favoriteRepository.GetFavoriteAsync(favoriteId);
+                if (Fav != null)
+                {
+                    favoriteProductIds = Fav.Items.Select(x => x.Id).ToList();
+                }
 
             }
 
