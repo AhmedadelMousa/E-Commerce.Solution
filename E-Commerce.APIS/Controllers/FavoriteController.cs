@@ -3,12 +3,14 @@ using E_Commerce.APIS.DTOs;
 using E_Commerce.APIS.Errors;
 using E_Commerce.Core.Entities.Favorite;
 using E_Commerce.Core.Repositories.Contract;
+
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace E_Commerce.APIS.Controllers
 {
-   
+    [Authorize]
     public class FavoriteController : BaseApiController
     {
         private readonly IFavoriteRepository _favorite;

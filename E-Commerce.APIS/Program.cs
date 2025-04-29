@@ -33,18 +33,24 @@ namespace E_Commerce.APIS
             builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             builder.Services.AddScoped(typeof(IOrderService), typeof(OrderService));
             builder.Services.AddScoped(typeof(IAuthService), typeof(AuthService));
+            builder.Services.AddScoped<IFavoriteRepository, FavoriteRepository>();
             builder.Services.AddIdentity<AppUser, IdentityRole>()
               .AddEntityFrameworkStores<StoreContext>();
 
-            builder.Services.AddAuthentication()
-                .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, option =>
+            builder.Services.AddAuthentication(options =>
+            {
+                // ? Tell ASP.NET Core to use JWT Bearer by default
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+                .AddJwtBearer(option =>
                 {
                     option.TokenValidationParameters = new TokenValidationParameters()
                     {
-                        ValidateIssuer = true,
-                        ValidIssuer = builder.Configuration["JWT:ValidIssuer"],
-                        ValidateAudience = true,
-                        ValidAudience = builder.Configuration["JWT:ValidAudience"],
+                        ValidateIssuer = false,
+                        //ValidIssuer = builder.Configuration["JWT:ValidIssuer"],
+                        ValidateAudience = false,
+                        //ValidAudience = builder.Configuration["JWT:ValidAudience"],
                         ValidateLifetime = true,
                         ClockSkew = TimeSpan.Zero,
                         ValidateIssuerSigningKey = true,
@@ -52,6 +58,7 @@ namespace E_Commerce.APIS
 
                     };
                 });
+            builder.Services.AddAuthorization();
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("AllowAngularDevClient", policy =>
@@ -100,6 +107,7 @@ namespace E_Commerce.APIS
 
             app.UseHttpsRedirection();
             app.UseCors("AllowAngularDevClient");
+            app.UseAuthentication();
             app.UseAuthorization();
             app.UseStaticFiles();
 
