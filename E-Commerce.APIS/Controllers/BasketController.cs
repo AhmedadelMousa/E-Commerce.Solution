@@ -39,7 +39,7 @@ namespace E_Commerce.APIS.Controllers
             var basket = await _basket.GetBasketAsync(basketId);
             var basketDto = _mapper.Map<CustomerBasketDto>(basket ?? new CustomerBasket(basketId));
             return Ok(basketDto);
-        }
+            }
 
             [HttpPost]
             public async Task<ActionResult<CustomerBasket>> CreateOrUpdateBasketAsync(CustomerBasketDto basketDto)//To Add Or Update Basket

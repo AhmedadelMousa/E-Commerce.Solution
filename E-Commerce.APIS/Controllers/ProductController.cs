@@ -49,6 +49,7 @@ namespace E_Commerce.APIS.Controllers
                     opt.Items["FavoriteProductIds"] = favoriteProductIds;
                     }
                 );
+
             var countSpec = new ProductWithFilterationForCountSpec(specParam);
             var count = await _unitOfWork.Repository<Product>().GetCountAsync(countSpec);
             return Ok(new Pagination<ProductsDto>(data.Count, specParam.PageIndex, count, data));
@@ -106,13 +107,31 @@ namespace E_Commerce.APIS.Controllers
             var product = await _unitOfWork.Repository<Product>().GetWithSpecAsync(spec);
             if (product == null)
                 return NotFound(new ApiResponse(404, "Product Not Found"));
+            var basketId = User.FindFirst("BasketId")?.Value;
             var (cartProductIds, favoriteProductIds) = await GetUserCartAndFavoriteIdsAsync();
+            int quantityInBasket = 0;
+            if(!string.IsNullOrEmpty(basketId))
+            {
+                var basket=await _basketRepository.GetBasketAsync(basketId);
+                if (basket != null)
+                {
+                    var item = basket.Items.FirstOrDefault(i => i.Id == product.Id);
+                    if (item != null)
+                    {
+                        quantityInBasket = item.Quentity;
+                    }
+
+                }
+
+            }
             var specDto = _mapper.Map<Product, ProductDetailsResponseDto>(product,
                 opt =>
                 {
                     opt.Items["CartProductIds"] = cartProductIds;
                     opt.Items["FavoriteProductIds"] = favoriteProductIds;
                 });
+            specDto.QuantityInBasket = quantityInBasket;
+
             return Ok(specDto);
 
         }

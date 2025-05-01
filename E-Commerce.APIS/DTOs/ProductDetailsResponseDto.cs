@@ -15,5 +15,6 @@
         public string CategoryId { get; internal set; }
         public bool IsInFav { get; set; }
         public bool IsInCart { get; set; }
+        public int QuantityInBasket { get; set; }
     }
 }
