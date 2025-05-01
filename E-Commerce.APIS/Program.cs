@@ -34,8 +34,24 @@ namespace E_Commerce.APIS
             builder.Services.AddScoped(typeof(IOrderService), typeof(OrderService));
             builder.Services.AddScoped(typeof(IAuthService), typeof(AuthService));
             builder.Services.AddScoped<IFavoriteRepository, FavoriteRepository>();
-            builder.Services.AddIdentity<AppUser, IdentityRole>()
-              .AddEntityFrameworkStores<StoreContext>();
+            builder.Services.AddIdentityCore<AppUser>()
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<StoreContext>()
+                .AddSignInManager();
+
+            builder.Services.ConfigureApplicationCookie(options =>
+            {
+                options.Events.OnRedirectToLogin = context =>
+                {
+                    if (context.Request.Path.StartsWithSegments("/api"))
+                    {
+                        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                        return Task.CompletedTask;
+                    }
+                    context.Response.Redirect(context.RedirectUri);
+                    return Task.CompletedTask;
+                };
+            });
 
             builder.Services.AddAuthentication(options =>
             {
@@ -64,10 +80,10 @@ namespace E_Commerce.APIS
                 options.AddPolicy("AllowAngularDevClient", policy =>
                 {
                     policy
-                      .WithOrigins("http://localhost:4200")   // your Angular dev server
+                      //.WithOrigins("https://4zkpd097-4200.euw.devtunnels.ms")   // your Angular dev server
+                      .AllowAnyOrigin()                        // allow any origin
                       .AllowAnyMethod()                       // GET, POST, OPTIONS, etc.
-                      .AllowAnyHeader()                       // Content-Type, Authorization, etc.
-                      .AllowCredentials();
+                      .AllowAnyHeader();                       // Content-Type, Authorization, etc.
                 });
             });
 
@@ -102,11 +118,12 @@ namespace E_Commerce.APIS
             //if (app.Environment.IsDevelopment())
             //{
                 app.UseSwagger();
-            app.UseSwaggerUI();
-           // }
+                app.UseSwaggerUI();
+            // }
 
-            app.UseHttpsRedirection();
+            app.UseRouting();
             app.UseCors("AllowAngularDevClient");
+            app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseStaticFiles();
