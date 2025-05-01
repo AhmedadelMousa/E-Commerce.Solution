@@ -24,10 +24,7 @@ namespace E_Commerce.APIS.Controllers
 
         private string GetFavoriteId()
         {
-            var favoriteId = User.FindFirst("FavoriteId")?.Value; 
-            if (string.IsNullOrEmpty(favoriteId))
-                throw new UnauthorizedAccessException("Favorite ID not found in token");
-            return favoriteId;
+            return User.FindFirst("FavoriteId")?.Value; 
         }
 
         [HttpGet]
@@ -42,6 +39,8 @@ namespace E_Commerce.APIS.Controllers
         public async Task<ActionResult<CustomerFavorite>> CreateOrUpdateFavoriteAsync(CustomerFavoriteDto favoriteDto)
         {
             var favoriteId = GetFavoriteId();
+            if (string.IsNullOrEmpty(favoriteId))
+                return Unauthorized(new ApiResponse(401, "Bad Token Request"));
             var mappedFavorite = _mapper.Map<CustomerFavoriteDto, CustomerFavorite>(favoriteDto);
             mappedFavorite.Id = favoriteId;
 
@@ -53,6 +52,8 @@ namespace E_Commerce.APIS.Controllers
         public async Task<ActionResult> DeleteAsync()
         {
             var favoriteId = GetFavoriteId();
+            if (string.IsNullOrEmpty(favoriteId))
+                return Unauthorized(new ApiResponse(401, "Bad Token Request"));
             var deleted = await _favorite.DeleteFavoriteAsync(favoriteId);
             return deleted ? NoContent() : NotFound(new ApiResponse(404));
         }
@@ -60,10 +61,13 @@ namespace E_Commerce.APIS.Controllers
         [HttpPost("AddItems")]
         public async Task<ActionResult<CustomerFavorite>> AddItemsToFavoriteAsync([FromBody] AddItemDto itemDto)
         {
+            var user = User.Claims;
             if (itemDto == null || string.IsNullOrEmpty(itemDto.ProductId))
                 return BadRequest(new ApiResponse(400, "Invalid product data"));
 
             var favoriteId = GetFavoriteId();
+            if (string.IsNullOrEmpty(favoriteId))
+                return Unauthorized(new ApiResponse(401, "Bad Token Request"));
             var favorite = await _favorite.GetFavoriteAsync(favoriteId) ?? new CustomerFavorite(favoriteId);
             var favoriteItem = _mapper.Map<AddItemDto, FavoriteItem>(itemDto);
 
@@ -87,6 +91,8 @@ namespace E_Commerce.APIS.Controllers
                 return BadRequest(new ApiResponse(400, "Invalid product ID"));
 
             var favoriteId = GetFavoriteId();
+            if (string.IsNullOrEmpty(favoriteId))
+                return Unauthorized(new ApiResponse(401, "Bad Token Request"));
             var favorite = await _favorite.GetFavoriteAsync(favoriteId);
             if (favorite == null)
                 return NotFound(new ApiResponse(404, "The favorite list is missing"));
