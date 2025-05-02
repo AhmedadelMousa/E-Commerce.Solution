@@ -9,9 +9,11 @@ using E_Commerce.Core.Entities.Favorite;
 using E_Commerce.Core.Repositories.Contract;
 using E_Commerce.Core.Specification.ProdutSpecification;
 using E_Commerce.Repository.Data;
+
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+
 using System.Security.Claims;
 
 namespace E_Commerce.APIS.Controllers
@@ -25,13 +27,13 @@ namespace E_Commerce.APIS.Controllers
         private readonly IBasketRepository _basketRepository;
         private readonly IFavoriteRepository _favoriteRepository;
 
-        public ProductController(IUnitOfWork unitOfWork, IMapper mapper,StoreContext context,IBasketRepository basketRepository,IFavoriteRepository favoriteRepository)
+        public ProductController(IUnitOfWork unitOfWork, IMapper mapper, StoreContext context, IBasketRepository basketRepository, IFavoriteRepository favoriteRepository)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _context = context;
             _basketRepository = basketRepository;
-      _favoriteRepository = favoriteRepository;
+            _favoriteRepository = favoriteRepository;
         }
 
         [HttpGet]
@@ -45,14 +47,13 @@ namespace E_Commerce.APIS.Controllers
             var (cartProductIds, favoriteProductIds) = await GetUserCartAndFavoriteIdsAsync();
             var data = _mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductsDto>>(products,
                 opt =>
-                { opt.Items["CartProductIds"] = cartProductIds;
+                {
+                    opt.Items["CartProductIds"] = cartProductIds;
                     opt.Items["FavoriteProductIds"] = favoriteProductIds;
-                    }
-                );
-
+                });
             var countSpec = new ProductWithFilterationForCountSpec(specParam);
             var count = await _unitOfWork.Repository<Product>().GetCountAsync(countSpec);
-            return Ok(new Pagination<ProductsDto>(data.Count, specParam.PageIndex, count, data));
+            return Ok(new Pagination<ProductsDto>(specParam.PageSize, specParam.PageIndex, count, data));
         }
 
         [HttpPost]
@@ -135,6 +136,7 @@ namespace E_Commerce.APIS.Controllers
             return Ok(specDto);
 
         }
+
         [HttpPut("{Id}")]
         public async Task<ActionResult> UpdateProduct([FromRoute] string Id, [FromBody] UpdateProductDto productDto)
         {
@@ -178,7 +180,7 @@ namespace E_Commerce.APIS.Controllers
                     await productDto.PictureUrl.CopyToAsync(stream);
                 }
 
-           
+
                 product.PictureUrl = $"Img/products/{fileName}";
             }
 
@@ -187,6 +189,7 @@ namespace E_Commerce.APIS.Controllers
 
             return Ok(new { message = "Product Updated Successfully" });
         }
+
         [HttpDelete("{Id}")]
         public async Task<ActionResult> DeleteProduct([FromRoute] string Id)
         {
@@ -215,20 +218,20 @@ namespace E_Commerce.APIS.Controllers
             var basketId = User.FindFirst("BasketId")?.Value;
             var favoriteId = User.FindFirstValue("FavoriteId");
 
-            
+
             if (!string.IsNullOrEmpty(basketId))
             {
-              var basket= await _basketRepository.GetBasketAsync(basketId);
-                if(basket!=null)
+                var basket = await _basketRepository.GetBasketAsync(basketId);
+                if (basket != null)
                 {
-                    cartProductIds= basket.Items.Select(x => x.Id).ToList();
+                    cartProductIds = basket.Items.Select(x => x.Id).ToList();
                 }
             }
 
-            
+
             if (!string.IsNullOrEmpty(favoriteId))
             {
-                var Fav= await _favoriteRepository.GetFavoriteAsync(favoriteId);
+                var Fav = await _favoriteRepository.GetFavoriteAsync(favoriteId);
                 if (Fav != null)
                 {
                     favoriteProductIds = Fav.Items.Select(x => x.Id).ToList();
