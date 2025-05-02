@@ -25,11 +25,16 @@ namespace E_Commerce.APIS.Controllers
         [HttpPost("BasketOrder")]
         public async Task<ActionResult<OrderToReturnDto>> CreateOrder(OrderForBasketDto dto)
         {
+            var appUserId = GetAppUserIdFromToken();
+            var basketId = GetBasketIdFromToken();
+            if (string.IsNullOrEmpty(appUserId) || string.IsNullOrEmpty(basketId))
+                return Unauthorized(new ApiResponse(401, "Invalid or missing token data"));
+
             return await HandleOrderCreation(
-        dto.AppUserId,
+        appUserId,
         dto.DeliveryMethodId,
         dto.ShippingAddress,
-        address => _orderService.CreateOrderAsync(dto.AppUserId, dto.BasketId, dto.DeliveryMethodId, address)
+        address => _orderService.CreateOrderAsync(appUserId, basketId, dto.DeliveryMethodId, address)
     );
             //var deliveryMethod = await _unitOfWork.Repository<DeliveryMethod>().GetByIdAsync(dto.DeliveryMethodId);
             //if (deliveryMethod == null)
@@ -42,25 +47,33 @@ namespace E_Commerce.APIS.Controllers
         [HttpPost("SingleOrder")]
         public async Task<ActionResult<OrderToReturnDto>> CreateSingleOrder(OrderForSingleOrderDto dto)
         {
-   //         return await HandleOrderCreation(
-   //    dto.AppUserId,
-   //    dto.DeliveryMethodId,
-   //    dto.ShippingAddress,
-   //    address => _orderService.CreateSingleOrderProduct(dto.AppUserId, dto.ProductId, dto.DeliveryMethodId, address)
-   //);
+            var appUserId = GetAppUserIdFromToken();
+            if (string.IsNullOrEmpty(appUserId))
+                return Unauthorized(new ApiResponse(401, "Invalid or missing token data"));
+
+            //         return await HandleOrderCreation(
+            //    dto.AppUserId,
+            //    dto.DeliveryMethodId,
+            //    dto.ShippingAddress,
+            //    address => _orderService.CreateSingleOrderProduct(dto.AppUserId, dto.ProductId, dto.DeliveryMethodId, address)
+            //);
             var deliveryMethod = await _unitOfWork.Repository<DeliveryMethod>().GetByIdAsync(dto.DeliveryMethodId);
             if (deliveryMethod == null)
                 return BadRequest();
             var address = _mapper.Map<AddressDto, AddressOrder>(dto.ShippingAddress);
-            var order = await _orderService.CreateSingleOrderProduct(dto.AppUserId, dto.ProductId, dto.DeliveryMethodId, address);
+            var order = await _orderService.CreateSingleOrderProduct(appUserId, dto.ProductId, dto.DeliveryMethodId, address);
             if (order is null) return BadRequest(new ApiResponse(400));
             return Ok(_mapper.Map<Order, OrderToReturnDto>(order));
         }
 
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<GetAllOrders>>> GetOrdersForUserAsync(string AppUserId)
+        public async Task<ActionResult<IReadOnlyList<GetAllOrders>>> GetOrdersForUserAsync()
         {
-            var orders= await _orderService.GetOrderForUserAsync(AppUserId);
+            var appUserId = GetAppUserIdFromToken();
+            if (string.IsNullOrEmpty(appUserId))
+                return Unauthorized(new ApiResponse(401));
+
+            var orders= await _orderService.GetOrderForUserAsync(appUserId);
             if (orders == null)
             {
                 return NotFound(new ApiResponse(404, "Order not found"));
@@ -72,13 +85,17 @@ namespace E_Commerce.APIS.Controllers
         }
 
         [HttpGet("order")]
-        public async Task<ActionResult<OrderDetailsDto>> GetOrderForUserAsync(string id, string AppUserId)
+        public async Task<ActionResult<OrderDetailsDto>> GetOrderForUserAsync(string id)
         {
-            var order = await _orderService.GetOrderByIdForUserAsync(id, AppUserId);
+            var appUserId = GetAppUserIdFromToken();
+            if (string.IsNullOrEmpty(appUserId))
+                return Unauthorized(new ApiResponse(401));
+
+            var order = await _orderService.GetOrderByIdForUserAsync(id, appUserId);
             if (order is null) return NotFound(new ApiResponse(404));
             var orderDetailsDto = _mapper.Map<OrderDetailsDto>(order);
 
-            // إرجاع البيانات المحولة
+           
             return Ok(orderDetailsDto);
           
         }
@@ -103,6 +120,15 @@ namespace E_Commerce.APIS.Controllers
             var mappedOrder = _mapper.Map<Order, OrderToReturnDto>(order);
 
             return Ok(mappedOrder);
+        }
+        private string GetAppUserIdFromToken()
+        {
+            return User.FindFirst("AppUserId")?.Value;
+        }
+
+        private string GetBasketIdFromToken()
+        {
+            return User.FindFirst("BasketId")?.Value;
         }
     }
 }

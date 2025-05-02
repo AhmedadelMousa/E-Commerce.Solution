@@ -17,6 +17,6 @@ namespace E_Commerce.APIS.DTOs
         public string Category { get; set; }
         [Required]
         [Range(1, int.MaxValue, ErrorMessage = "Quantity Must be at Least one!")]
-        public int Quentity { get; set; }
+        public int Quantity { get; set; }
     }
 }
