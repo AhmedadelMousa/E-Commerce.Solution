@@ -31,7 +31,7 @@ namespace E_Commerce.Service
 
             foreach (var item in basket.Items)
             {
-                var orderItem = await PrepareOrderItemAsync(item.Id, item.Quentity);
+                var orderItem = await PrepareOrderItemAsync(item.Id, item.Quantity);
                 if (orderItem != null)
                     orderItems.Add(orderItem);
             }

@@ -21,5 +21,6 @@ namespace E_Commerce.Core.Repositories.Contract
         Task<T> GetByConditionAsync(Expression<Func<T, bool>> predicate);
         Task<T> GetWithSpecAsync(ISpecification<T> spec);
         Task<int> GetCountAsync(ISpecification<T> spec);
+        IQueryable<T> GetQueryable();
     }
 }

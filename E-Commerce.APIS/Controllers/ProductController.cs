@@ -119,7 +119,7 @@ namespace E_Commerce.APIS.Controllers
                     var item = basket.Items.FirstOrDefault(i => i.Id == product.Id);
                     if (item != null)
                     {
-                        quantityInBasket = item.Quentity;
+                        quantityInBasket = item.Quantity;
                     }
 
                 }

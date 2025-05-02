@@ -23,19 +23,28 @@ namespace E_Commerce.APIS.Controllers
             _unitOfWork = unitOfWork;
         }
         [HttpPost("BasketOrder")]
-        public async Task<ActionResult<OrderToReturnDto>> CreateOrder(OrderForBasketDto dto)
+        public async Task<ActionResult<OrderToReturnDto>> CreateOrder(OrderDto dto)
         {
+            if (dto == null || !ModelState.IsValid)
+                return BadRequest(new ApiResponse(400, "Invalid order data"));
+
             var appUserId = GetAppUserIdFromToken();
             var basketId = GetBasketIdFromToken();
             if (string.IsNullOrEmpty(appUserId) || string.IsNullOrEmpty(basketId))
                 return Unauthorized(new ApiResponse(401, "Invalid or missing token data"));
+            var deliveryMethod = await _unitOfWork.Repository<DeliveryMethod>().GetByIdAsync(dto.DeliveryMethodId);
+            if (deliveryMethod == null)
+                return BadRequest(new ApiResponse(400, "Delivery method not found"));
+            var address = _mapper.Map<AddressDto, AddressOrder>(dto.ShippingAddress);
 
             return await HandleOrderCreation(
         appUserId,
         dto.DeliveryMethodId,
         dto.ShippingAddress,
-        address => _orderService.CreateOrderAsync(appUserId, basketId, dto.DeliveryMethodId, address)
-    );
+       async(address) =>  {
+           var order = await _orderService.CreateOrderAsync(appUserId, basketId, dto.DeliveryMethodId, address);
+         return order;
+       });
             //var deliveryMethod = await _unitOfWork.Repository<DeliveryMethod>().GetByIdAsync(dto.DeliveryMethodId);
             //if (deliveryMethod == null)
             //    return BadRequest(); // أو ترجع BadRequest

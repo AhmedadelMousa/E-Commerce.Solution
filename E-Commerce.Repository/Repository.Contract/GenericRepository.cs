@@ -55,6 +55,11 @@ namespace E_Commerce.Repository.Repository.Contract
             return await ApplySpecification(spec).CountAsync();
         }
 
+        public  IQueryable<T> GetQueryable()
+        {
+            return  _store.Set<T>().AsQueryable();
+        }
+
         public async Task<T> GetWithSpecAsync(ISpecification<T> spec)
         {
            return await ApplySpecification(spec).FirstOrDefaultAsync();

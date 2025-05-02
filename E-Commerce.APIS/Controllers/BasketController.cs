@@ -2,12 +2,14 @@
 
 using E_Commerce.APIS.DTOs;
 using E_Commerce.APIS.Errors;
+using E_Commerce.Core.Entities;
 using E_Commerce.Core.Entities.Basket;
 using E_Commerce.Core.Repositories.Contract;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace E_Commerce.APIS.Controllers
 {
@@ -18,11 +20,13 @@ namespace E_Commerce.APIS.Controllers
     {
         private readonly IBasketRepository _basket;
         private readonly IMapper _mapper;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public BasketController(IBasketRepository basket, IMapper mapper)
+        public BasketController(IBasketRepository basket, IMapper mapper ,IUnitOfWork unitOfWork)
         {
             _basket = basket;
             _mapper = mapper;
+           _unitOfWork = unitOfWork;
         }
         private string GetBasketId()
         {
@@ -68,13 +72,31 @@ namespace E_Commerce.APIS.Controllers
         {
             if (ItemDto == null || string.IsNullOrEmpty(ItemDto.ProductId) || ItemDto.Quantity <= 0)
                 return BadRequest(new ApiResponse(400, "Invalid product data"));
+            var product = await _unitOfWork.Repository<Product>()
+    .GetQueryable()
+    .Include(p => p.Category)
+    .FirstOrDefaultAsync(p => p.Id == ItemDto.ProductId);
+
+           
+            if (product == null)
+                return NotFound(new ApiResponse(404, "Product not found"));
             var basketId = GetBasketId();
             var basket = await _basket.GetBasketAsync(basketId) ?? new CustomerBasket(basketId);
-            var basketItem = _mapper.Map<AddItemDto, BasketItem>(ItemDto);
+            var basketItem = new BasketItem
+            {
+                Id = product.Id,
+                ProductName = product.Name,
+                Price = product.Price,
+                PictureUrl = product.PictureUrl,
+                Category=product.Category.Name,
+                Quantity=ItemDto.Quantity,
+            };
+
+            //var basketItem = _mapper.Map<AddItemDto, BasketItem>(ItemDto);
             var existingItem = basket.Items.FirstOrDefault(i => i.Id == basketItem.Id);
             if (existingItem != null)
             {
-                existingItem.Quentity += basketItem.Quentity;
+                existingItem.Quantity += basketItem.Quantity;
             }
             else
             {
@@ -102,8 +124,8 @@ namespace E_Commerce.APIS.Controllers
             if (item == null)
                 return NotFound(new ApiResponse(404, "The product is not in the cart"));
 
-            item.Quentity -= quantity;
-            if (item.Quentity <= 0)
+            item.Quantity -= quantity;
+            if (item.Quantity <= 0)
             {
                 basket.Items.Remove(item);
             }
