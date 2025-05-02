@@ -1,14 +1,16 @@
 ﻿using AutoMapper;
+
 using E_Commerce.APIS.DTOs;
 using E_Commerce.Core.Entities;
 using E_Commerce.Core.Entities.Basket;
 using E_Commerce.Core.Entities.Favorite;
 using E_Commerce.Core.Order_Aggregrate;
+
 using Microsoft.EntityFrameworkCore.Update.Internal;
 
 namespace E_Commerce.APIS.Helpers
 {
-    public class MappingProfiles:Profile
+    public class MappingProfiles : Profile
     {
         public MappingProfiles()
         {
@@ -40,6 +42,7 @@ namespace E_Commerce.APIS.Helpers
                     return false;
                 }));
             CreateMap<Product, ProductDetailsResponseDto>()
+                 .ForMember(p => p.ProductId, d => d.MapFrom(s => s.Id))
                  .ForMember(p => p.Name, d => d.MapFrom(s => s.Name))
                  .ForMember(p => p.Price, d => d.MapFrom(s => s.Price))
                  .ForMember(p => p.CategoryName, d => d.MapFrom(s => s.Category.Name))
@@ -70,11 +73,12 @@ namespace E_Commerce.APIS.Helpers
                 }));
 
             CreateMap<Review, MakeReviewDto>()
+                .ForMember(p => p.ReviewId, d => d.MapFrom(s => s.Id))
                 .ForMember(p => p.Comment, d => d.MapFrom(s => s.Comment))
                 .ForMember(p => p.NumberOfPoint, d => d.MapFrom(s => s.NumberOfPoint))
                 .ForMember(p => p.CreatedAt, d => d.MapFrom(s => s.CreatedAt))
                 .ForMember(p => p.AppUserId, d => d.MapFrom(s => s.AppUserId));
-            CreateMap<UpdateProductDto,Product>()
+            CreateMap<UpdateProductDto, Product>()
                 .ForMember(p => p.Name, d => d.MapFrom(s => s.Name))
                 .ForMember(p => p.Description, d => d.MapFrom(s => s.Description))
                 .ForMember(p => p.Price, d => d.MapFrom(s => s.Price))
@@ -87,13 +91,13 @@ namespace E_Commerce.APIS.Helpers
                 .ForMember(p => p.Name, d => d.MapFrom(s => s.Name))
                 .ForMember(p => p.Id, d => d.MapFrom(s => s.Id))
                 .ForMember(p => p.Description, d => d.MapFrom(s => s.Description))
-                .ForMember(p =>p.Count,d=>d.MapFrom((src,dest, _,context)=>
+                .ForMember(p => p.Count, d => d.MapFrom((src, dest, _, context) =>
                 {
-                    if(context.Items.TryGetValue("countByCategory",out var countByCategoryObj))
-                      {
+                    if (context.Items.TryGetValue("countByCategory", out var countByCategoryObj))
+                    {
                         var countByCategory = (Dictionary<string, int>)countByCategoryObj;
                         return countByCategory.TryGetValue(src.Id, out var count) ? count : 0;
-                      }
+                    }
                     return 0;
                 }
                 ));
@@ -106,7 +110,7 @@ namespace E_Commerce.APIS.Helpers
                 .ForMember(p => p.DeliveryMethodCost, d => d.MapFrom(s => s.DeliveryMethod.Cost))
                 .ForMember(p => p.DeliveryMethod, d => d.MapFrom(s => s.DeliveryMethod.ShortName))
                 ;
-            CreateMap<OrderItem,OrderItemDto>()
+            CreateMap<OrderItem, OrderItemDto>()
                  .ForMember(p => p.Product, d => d.MapFrom(s => s.Product))
                   .ForMember(p => p.Quantity, d => d.MapFrom(s => s.Quantity))
                    .ForMember(p => p.Price, d => d.MapFrom(s => s.Price))
@@ -143,19 +147,11 @@ namespace E_Commerce.APIS.Helpers
                  .ForMember(p => p.PictureUrl, d => d.MapFrom<PictureUrlResolver>())
                  ;
             CreateMap<CustomerBasket, CustomerBasketDto>()
-                .ForMember(p=>p.BasketItems,d=>d.MapFrom(s=>s.Items));
+                .ForMember(p => p.BasketItems, d => d.MapFrom(s => s.Items));
             CreateMap<FavoriteItem, FavoriteItem>()
                  .ForMember(p => p.PictureUrl, d => d.MapFrom<PictureUrlResolver>());
             CreateMap<CustomerFavorite, CustomerFavoriteDto>()
                 .ForMember(p => p.Items, d => d.MapFrom(s => s.Items));
-
-
-
-
-
-
-
-
         }
     }
 }

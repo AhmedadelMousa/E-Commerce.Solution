@@ -2,6 +2,7 @@
 {
     public class MakeReviewDto
     {
+        public string ReviewId { get; set; }
         public string Comment { get; set; }
         public int NumberOfPoint { get; set; }
         public DateTime CreatedAt { get; set; }
