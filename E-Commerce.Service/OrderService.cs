@@ -92,6 +92,12 @@ namespace E_Commerce.Service
 
         }
 
+        public async Task<IReadOnlyList<Order>> GetAllOrdersAsync()
+        {
+            var orders= await _unitOfWork.Repository<Order>().GetAllAsync();
+            return orders;
+        }
+
         public async Task<Order?> GetOrderByIdForUserAsync(string orderId, string appUserId)
         {
            var OrderRepo=  _unitOfWork.Repository<Order>();
