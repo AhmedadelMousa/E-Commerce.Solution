@@ -30,11 +30,11 @@ namespace E_Commerce.APIS.Controllers
                 usersDto.Add(new GetAllUsersDto
                 {
                     Id = user.Id,
-                    UserName=user.UserName,
-                    Roles=roles
-                    ,DisplayName=user.DisplayName,
-                    Email=user.Email,
-                    PhoneNumber=user.PhoneNumber
+                    UserName = user.UserName,
+                    Roles = roles,
+                    DisplayName = user.DisplayName,
+                    Email = user.Email,
+                    PhoneNumber = user.PhoneNumber
                 });
             }
             return Ok(usersDto);

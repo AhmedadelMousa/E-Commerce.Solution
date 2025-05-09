@@ -5,6 +5,7 @@ using E_Commerce.Core.Services.Contract;
 using E_Commerce.Repository.Data;
 using E_Commerce.Repository.Repository.Contract;
 using E_Commerce.Service;
+using E_Commerce.Service.Helpers;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -28,6 +29,8 @@ namespace E_Commerce.APIS
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.Configure<AppBaseLinks>(builder.Configuration.GetSection(nameof(AppBaseLinks)));
+            builder.Services.Configure<JwtConfigurations>(builder.Configuration.GetSection("JWT"));
             builder.Services.AddDbContext<StoreContext>(option =>
                 option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
             builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));

@@ -13,10 +13,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace E_Commerce.APIS.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
     [Authorize]
-    public class BasketController : ControllerBase
+    public class BasketController : BaseApiController
     {
         private readonly IBasketRepository _basket;
         private readonly IMapper _mapper;
@@ -28,19 +26,12 @@ namespace E_Commerce.APIS.Controllers
             _mapper = mapper;
            _unitOfWork = unitOfWork;
         }
-        private string GetBasketId()
-        {
-            var basketId = User.FindFirst("BasketId")?.Value;
-            if (string.IsNullOrEmpty(basketId))
-                throw new UnauthorizedAccessException("Basket ID not found in token");
-            return basketId;
-        }
 
         [HttpGet]
         public async Task<ActionResult<CustomerBasketDto>> GetBasketAsync()
         {
 
-            var basketId = GetBasketId();
+            var basketId = GetBasketIdFromToken();
             if (string.IsNullOrEmpty(basketId))
                 return BadRequest(new ApiResponse(400, "Basket ID not found"));
 
@@ -52,7 +43,7 @@ namespace E_Commerce.APIS.Controllers
         [HttpPost]
         public async Task<ActionResult<CustomerBasket>> CreateOrUpdateBasketAsync(CustomerBasketDto basketDto)//To Add Or Update Basket
         {
-            var basketId = GetBasketId();
+            var basketId = GetBasketIdFromToken();
             var MappedBasket = _mapper.Map<CustomerBasketDto, CustomerBasket>(basketDto);
             MappedBasket.Id = basketId;
 
@@ -62,7 +53,7 @@ namespace E_Commerce.APIS.Controllers
         [HttpDelete]
         public async Task<ActionResult> DeleteAsync()
         {
-            var basketId = GetBasketId();
+            var basketId = GetBasketIdFromToken();
             var deleted = await _basket.DeleteBasketAsync(basketId);
             return deleted ? NoContent() : NotFound(new ApiResponse(404));
         }
@@ -73,14 +64,14 @@ namespace E_Commerce.APIS.Controllers
             if (ItemDto == null || string.IsNullOrEmpty(ItemDto.ProductId) || ItemDto.Quantity <= 0)
                 return BadRequest(new ApiResponse(400, "Invalid product data"));
             var product = await _unitOfWork.Repository<Product>()
-    .GetQueryable()
-    .Include(p => p.Category)
-    .FirstOrDefaultAsync(p => p.Id == ItemDto.ProductId);
+                                        .GetQueryable()
+                                        .Include(p => p.Category)
+                                        .FirstOrDefaultAsync(p => p.Id == ItemDto.ProductId);
 
            
             if (product == null)
                 return NotFound(new ApiResponse(404, "Product not found"));
-            var basketId = GetBasketId();
+            var basketId = GetBasketIdFromToken();
             var basket = await _basket.GetBasketAsync(basketId) ?? new CustomerBasket(basketId);
             var basketItem = new BasketItem
             {
@@ -115,7 +106,7 @@ namespace E_Commerce.APIS.Controllers
             if (string.IsNullOrEmpty(productId) || quantity <= 0)
                 return BadRequest(new ApiResponse(400, "Invalid product ID or quantity"));
 
-            var basketId = GetBasketId();
+            var basketId = GetBasketIdFromToken();
             var basket = await _basket.GetBasketAsync(basketId);
             if (basket == null)
                 return NotFound(new ApiResponse(404, "The basket is missing"));

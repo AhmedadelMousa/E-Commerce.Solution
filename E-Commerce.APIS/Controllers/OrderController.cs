@@ -4,12 +4,18 @@ using E_Commerce.APIS.Errors;
 using E_Commerce.Core.Order_Aggregrate;
 using E_Commerce.Core.Repositories.Contract;
 using E_Commerce.Core.Services.Contract;
+using E_Commerce.Service.Helpers;
+
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+
+using System.Security.Claims;
 
 namespace E_Commerce.APIS.Controllers
 {
 
+    [Authorize]
     public class OrderController : BaseApiController
     {
         private readonly IOrderService _orderService;
@@ -38,13 +44,13 @@ namespace E_Commerce.APIS.Controllers
             var address = _mapper.Map<AddressDto, AddressOrder>(dto.ShippingAddress);
 
             return await HandleOrderCreation(
-        appUserId,
-        dto.DeliveryMethodId,
-        dto.ShippingAddress,
-       async(address) =>  {
-           var order = await _orderService.CreateOrderAsync(appUserId, basketId, dto.DeliveryMethodId, address);
-         return order;
-       });
+                    appUserId,
+                    dto.DeliveryMethodId,
+                    dto.ShippingAddress,
+                   async(address) =>  {
+                       var order = await _orderService.CreateOrderAsync(appUserId, basketId, dto.DeliveryMethodId, address);
+                     return order;
+                    });
             //var deliveryMethod = await _unitOfWork.Repository<DeliveryMethod>().GetByIdAsync(dto.DeliveryMethodId);
             //if (deliveryMethod == null)
             //    return BadRequest(); // أو ترجع BadRequest
@@ -130,14 +136,6 @@ namespace E_Commerce.APIS.Controllers
 
             return Ok(mappedOrder);
         }
-        private string GetAppUserIdFromToken()
-        {
-            return User.FindFirst("AppUserId")?.Value;
-        }
-
-        private string GetBasketIdFromToken()
-        {
-            return User.FindFirst("BasketId")?.Value;
-        }
+      
     }
 }

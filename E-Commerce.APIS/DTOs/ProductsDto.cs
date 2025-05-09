@@ -9,8 +9,8 @@ namespace E_Commerce.APIS.DTOs
         public string Name { get; set; }
       
         public string PictureUrl { get; set; }
-        public string Size { get; set; }
-        
+        public string[] Sizes { get; set; }
+        public string[] Colors { set; get; }
         public int StockQuantity { get; set; }
         public decimal Price { get; set; }
         public string CategoryId { set; get; }

@@ -59,9 +59,11 @@ namespace E_Commerce.APIS.Controllers
         [HttpPost]
         public async Task<ActionResult> CreateProduct([FromForm] CreateProductDto productDto)
         {
-            if (productDto == null) return BadRequest(new ApiResponse(400, "Invalid Data"));
-            string imgUrl = null;
-            if (productDto.PictureUrl != null && productDto.PictureUrl.Length > 0)
+            if (productDto == null)
+                return BadRequest(new ApiResponse(400, "Invalid Data"));
+
+            string imgUrl = string.Empty;
+            if (productDto.Picture != null && productDto.Picture.Length > 0)
             {
                 //Route Location for img
                 string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Img", "Products");
@@ -71,27 +73,24 @@ namespace E_Commerce.APIS.Controllers
                     Directory.CreateDirectory(uploadsFolder);
                 }
                 //Create UniqueFileName
-                string fileName = $"{Guid.NewGuid()}{Path.GetExtension(productDto.PictureUrl.FileName)}";
+                string fileName = $"{Guid.NewGuid()}{Path.GetExtension(productDto.Picture.FileName)}";
                 string filePath = Path.Combine(uploadsFolder, fileName);
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
-                    await productDto.PictureUrl.CopyToAsync(fileStream);
-
+                    await productDto.Picture.CopyToAsync(fileStream);
                 }
                 imgUrl = $"Img/Products/{fileName}";
             }
-
-
 
             var Product = new Product
             {
                 Id = Guid.NewGuid().ToString("N"),
                 Name = productDto.Name,
-                Colors = productDto.Colors,
+                Colors = string.Join(',', productDto.Colors.Select(s => s.ToLower())),
                 Description = productDto.Description,
                 CategoryId = productDto.CategoryId,
                 Price = productDto.Price,
-                Size = productDto.Size,
+                Size = string.Join(',', productDto.Sizes.Select(s => s.ToUpper())),
                 StockQuantity = productDto.StockQuantity,
                 PictureUrl = imgUrl
             };
@@ -113,7 +112,7 @@ namespace E_Commerce.APIS.Controllers
             int quantityInBasket = 0;
             if(!string.IsNullOrEmpty(basketId))
             {
-                var basket=await _basketRepository.GetBasketAsync(basketId);
+                var basket = await _basketRepository.GetBasketAsync(basketId);
                 if (basket != null)
                 {
                     var item = basket.Items.FirstOrDefault(i => i.Id == product.Id);
@@ -121,9 +120,7 @@ namespace E_Commerce.APIS.Controllers
                     {
                         quantityInBasket = item.Quantity;
                     }
-
                 }
-
             }
             var specDto = _mapper.Map<Product, ProductDetailsResponseDto>(product,
                 opt =>
@@ -144,10 +141,14 @@ namespace E_Commerce.APIS.Controllers
             if (product == null)
                 return NotFound(new ApiResponse(404, "Product Not Found"));
 
-            if (!string.IsNullOrEmpty(productDto.Name)) product.Name = productDto.Name;
-            if (!string.IsNullOrEmpty(productDto.Description)) product.Description = productDto.Description;
-            if (!string.IsNullOrEmpty(productDto.Size)) product.Size = productDto.Size;
-            if (!string.IsNullOrEmpty(productDto.Colors)) product.Colors = productDto.Colors;
+            if (!string.IsNullOrEmpty(productDto.Name))
+                product.Name = productDto.Name;
+            if (!string.IsNullOrEmpty(productDto.Description)) 
+                product.Description = productDto.Description;
+            if (productDto.Sizes is not null) 
+                product.Size = string.Join(',', productDto.Sizes);
+            if (productDto.Colors is not null) 
+                product.Colors = string.Join(',', productDto.Colors);
             if (productDto.StockQuantity.HasValue && productDto.StockQuantity > 0)
                 product.StockQuantity = productDto.StockQuantity.GetValueOrDefault();
 
@@ -215,8 +216,8 @@ namespace E_Commerce.APIS.Controllers
             var favoriteProductIds = new List<string>();
 
 
-            var basketId = User.FindFirst("BasketId")?.Value;
-            var favoriteId = User.FindFirstValue("FavoriteId");
+            var basketId = GetBasketIdFromToken();
+            var favoriteId = GetFavoriteIdFromToken();
 
 
             if (!string.IsNullOrEmpty(basketId))

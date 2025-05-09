@@ -1,7 +1,10 @@
 ﻿using E_Commerce.Core.Entities.Identity;
 using E_Commerce.Core.Services.Contract;
+using E_Commerce.Service.Helpers;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -15,45 +18,49 @@ namespace E_Commerce.Service
 {
     public class AuthService : IAuthService
     {
-        private readonly IConfiguration _configuration;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly JwtConfigurations _jwtConf;
 
-        public AuthService(IConfiguration configuration)
+        public AuthService(UserManager<AppUser> userManager, IOptions<JwtConfigurations> options)
         {
-            _configuration = configuration;
+            _userManager = userManager;
+            _jwtConf = options.Value;
         }
-        public async Task<string> CreateTokenAsync(AppUser user, UserManager<AppUser> userManager)
+        public async Task<string> CreateTokenFroUserAsync(AppUser user)
         {
             var authClaims = new List<Claim>()
-           {
-               new Claim(ClaimTypes.Name,user.DisplayName),
-               new Claim(ClaimTypes.Email,user.Email)
-
-           };
-            var userRoles= await userManager.GetRolesAsync(user);
+               {
+                   new Claim(ClaimTypes.Name,user.DisplayName),
+                   new Claim(ClaimTypes.Email,user.Email),
+                   new Claim(ClaimTypes.NameIdentifier, user.Id),
+               };
+            var userRoles= await _userManager.GetRolesAsync(user);
 
             foreach (var role in userRoles) 
             {
                 authClaims.Add(new Claim(ClaimTypes.Role, role));
             }
+
             if(string.IsNullOrEmpty(user.BasketId))
             {
                 user.BasketId = Guid.NewGuid().ToString();
-                await userManager.UpdateAsync(user);
+                await _userManager.UpdateAsync(user);
             }
-            authClaims.Add(new Claim("BasketId",user.BasketId));
+
+            authClaims.Add(new Claim(CustomClaimTypes.BasketId, user.BasketId));
 
             if(string.IsNullOrEmpty(user.FavoriteId))
             {
                 user.FavoriteId = Guid.NewGuid().ToString();
-                await userManager.UpdateAsync(user);
+                await _userManager.UpdateAsync(user);
             }
-            authClaims.Add(new Claim("FavoriteId", user.FavoriteId));
+            authClaims.Add(new Claim(CustomClaimTypes.FavoriteId, user.FavoriteId));
 
-            var authKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:AuthKey"]));
+            var authKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtConf.AuthKey));
             var Token = new JwtSecurityToken(
-                audience: _configuration["JWT:ValidAudience"],
-                issuer: _configuration["JWT:ValidIssuer"],
-                expires: DateTime.Now.AddDays(double.Parse(_configuration["JWT:DurationInDays"] ?? "0")),
+                audience: _jwtConf.ValidAudience,
+                issuer: _jwtConf.ValidIssuer,
+                expires: DateTime.Now.AddDays(_jwtConf.DurationInDays),
                 claims: authClaims,
 
                 signingCredentials: new SigningCredentials(authKey, SecurityAlgorithms.HmacSha256Signature)

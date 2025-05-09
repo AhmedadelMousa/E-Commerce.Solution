@@ -6,8 +6,8 @@
         public string Name { get; set; }
         public string Description { get; set; }
         public string PictureUrl { get; set; }
-        public string Size { get; set; }
-        public string Colors { get; set; }
+        public string[] Sizes { get; set; }
+        public string[] Colors { get; set; }
         public int StockQuantity { get; set; }
         public decimal Price { get; set; }
         public List<MakeReviewDto> Reviews { get; set; }

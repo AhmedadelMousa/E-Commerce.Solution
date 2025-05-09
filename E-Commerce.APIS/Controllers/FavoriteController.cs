@@ -1,12 +1,17 @@
 ﻿using AutoMapper;
 using E_Commerce.APIS.DTOs;
 using E_Commerce.APIS.Errors;
+using E_Commerce.APIS.Helpers;
+using E_Commerce.Core.Entities;
 using E_Commerce.Core.Entities.Favorite;
 using E_Commerce.Core.Repositories.Contract;
+using E_Commerce.Repository.Repository.Contract;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 namespace E_Commerce.APIS.Controllers
 {
@@ -15,22 +20,21 @@ namespace E_Commerce.APIS.Controllers
     {
         private readonly IFavoriteRepository _favorite;
         private readonly IMapper _mapper;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly AppBaseLinks _appLinks;
 
-        public FavoriteController(IFavoriteRepository favorite, IMapper mapper)
+        public FavoriteController(IFavoriteRepository favorite, IMapper mapper, IUnitOfWork unitOfWork, IOptions<AppBaseLinks> options)
         {
             _favorite = favorite;
             _mapper = mapper;
-        }
-
-        private string GetFavoriteId()
-        {
-            return User.FindFirst("FavoriteId")?.Value; 
+            _unitOfWork = unitOfWork;
+            _appLinks = options.Value;
         }
 
         [HttpGet]
         public async Task<ActionResult<CustomerFavorite>> GetFavoriteAsync()
         {
-            var favoriteId = GetFavoriteId();
+            var favoriteId = GetFavoriteIdFromToken();
             var favorite = await _favorite.GetFavoriteAsync(favoriteId);
             return Ok(favorite ?? new CustomerFavorite(favoriteId));
         }
@@ -38,7 +42,7 @@ namespace E_Commerce.APIS.Controllers
         [HttpPost]
         public async Task<ActionResult<CustomerFavorite>> CreateOrUpdateFavoriteAsync(CustomerFavoriteDto favoriteDto)
         {
-            var favoriteId = GetFavoriteId();
+            var favoriteId = GetFavoriteIdFromToken();
             if (string.IsNullOrEmpty(favoriteId))
                 return Unauthorized(new ApiResponse(401, "Bad Token Request"));
             var mappedFavorite = _mapper.Map<CustomerFavoriteDto, CustomerFavorite>(favoriteDto);
@@ -51,7 +55,7 @@ namespace E_Commerce.APIS.Controllers
         [HttpDelete]
         public async Task<ActionResult> DeleteAsync()
         {
-            var favoriteId = GetFavoriteId();
+            var favoriteId = GetFavoriteIdFromToken();
             if (string.IsNullOrEmpty(favoriteId))
                 return Unauthorized(new ApiResponse(401, "Bad Token Request"));
             var deleted = await _favorite.DeleteFavoriteAsync(favoriteId);
@@ -65,11 +69,26 @@ namespace E_Commerce.APIS.Controllers
             if (itemDto == null || string.IsNullOrEmpty(itemDto.ProductId))
                 return BadRequest(new ApiResponse(400, "Invalid product data"));
 
-            var favoriteId = GetFavoriteId();
+            var favoriteId = GetFavoriteIdFromToken();
             if (string.IsNullOrEmpty(favoriteId))
                 return Unauthorized(new ApiResponse(401, "Bad Token Request"));
+            var product = await _unitOfWork.Repository<Product>()
+                   .GetQueryable()
+                   .Include(p => p.Category)
+                   .FirstOrDefaultAsync(p => p.Id == itemDto.ProductId);
+            if (product == null)
+                return NotFound(new ApiResponse(404, "Product not found"));
+
             var favorite = await _favorite.GetFavoriteAsync(favoriteId) ?? new CustomerFavorite(favoriteId);
-            var favoriteItem = _mapper.Map<AddItemDto, FavoriteItem>(itemDto);
+            var favoriteItem = new FavoriteItem
+            {
+                Category = product.Category.Name,
+                PictureUrl = _appLinks.ApiBaseUrl + product.PictureUrl,
+                Price = product.Price,
+                ProductName = product.Name,
+                Id = product.Id
+            };
+
 
             var existingItem = favorite.Items.FirstOrDefault(i => i.Id == favoriteItem.Id);
             if (existingItem == null)
@@ -90,7 +109,7 @@ namespace E_Commerce.APIS.Controllers
             if (string.IsNullOrEmpty(productId))
                 return BadRequest(new ApiResponse(400, "Invalid product ID"));
 
-            var favoriteId = GetFavoriteId();
+            var favoriteId = GetFavoriteIdFromToken();
             if (string.IsNullOrEmpty(favoriteId))
                 return Unauthorized(new ApiResponse(401, "Bad Token Request"));
             var favorite = await _favorite.GetFavoriteAsync(favoriteId);
