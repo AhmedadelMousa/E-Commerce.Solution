@@ -13,5 +13,6 @@ namespace E_Commerce.Core.Services.Contract
         Task<Order?> CreateSingleOrderProduct(string appUserId, string productId, string deliveryMethodId,AddressOrder shippingAddress);
         Task<IReadOnlyList<Order>> GetOrderForUserAsync(string appUserId);
         Task<Order?> GetOrderByIdForUserAsync(string orderId, string appUserId);
+        Task<IReadOnlyList<Order>> GetAllOrdersAsync();
     }
 }

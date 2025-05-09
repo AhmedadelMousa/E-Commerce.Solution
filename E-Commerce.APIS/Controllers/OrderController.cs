@@ -21,12 +21,14 @@ namespace E_Commerce.APIS.Controllers
         private readonly IOrderService _orderService;
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IBasketRepository _basketRepository;
 
-        public OrderController(IOrderService orderService, IMapper mapper, IUnitOfWork unitOfWork)
+        public OrderController(IOrderService orderService, IMapper mapper, IUnitOfWork unitOfWork,IBasketRepository basketRepository)
         {
             _orderService = orderService;
             _mapper = mapper;
             _unitOfWork = unitOfWork;
+            _basketRepository = basketRepository;
         }
         [HttpPost("BasketOrder")]
         public async Task<ActionResult<OrderToReturnDto>> CreateOrder(OrderDto dto)
@@ -44,13 +46,18 @@ namespace E_Commerce.APIS.Controllers
             var address = _mapper.Map<AddressDto, AddressOrder>(dto.ShippingAddress);
 
             return await HandleOrderCreation(
-                    appUserId,
-                    dto.DeliveryMethodId,
-                    dto.ShippingAddress,
-                   async(address) =>  {
-                       var order = await _orderService.CreateOrderAsync(appUserId, basketId, dto.DeliveryMethodId, address);
-                     return order;
-                    });
+        appUserId,
+        dto.DeliveryMethodId,
+        dto.ShippingAddress,
+       async(address) =>  {
+           var order = await _orderService.CreateOrderAsync(appUserId, basketId, dto.DeliveryMethodId, address);
+           if (order != null) 
+           {
+               
+               await _basketRepository.DeleteBasketAsync(basketId);
+           }
+           return order;
+       });
             //var deliveryMethod = await _unitOfWork.Repository<DeliveryMethod>().GetByIdAsync(dto.DeliveryMethodId);
             //if (deliveryMethod == null)
             //    return BadRequest(); // أو ترجع BadRequest
@@ -98,6 +105,17 @@ namespace E_Commerce.APIS.Controllers
             return Ok(ordersDto);
 
         }
+        [HttpGet]
+        public async Task<ActionResult<GetAllOrders>> GetOrdersForAdmin()
+        {
+            var orders= await _orderService.GetAllOrdersAsync();
+            if (orders == null || !orders.Any())
+            {
+                return NotFound(new ApiResponse(404, "Order not found"));
+            }
+            var ordersDto = _mapper.Map<List<GetAllOrders>>(orders);
+            return Ok(ordersDto);
+        }
 
         [HttpGet("order")]
         public async Task<ActionResult<OrderDetailsDto>> GetOrderForUserAsync(string id)
@@ -114,6 +132,34 @@ namespace E_Commerce.APIS.Controllers
             return Ok(orderDetailsDto);
           
         }
+
+        [HttpGet("admin/orders")]
+        public async Task<ActionResult<IReadOnlyList<GetAllOrders>>>GetOrdersForAdmin([FromQuery] int page=1, [FromQuery] int pageSize=5)
+        {
+            if (page < 1 || pageSize < 1)
+                return BadRequest(new ApiResponse(400, "Invalid pagination parameters"));
+            var orders = await _orderService.GetAllOrdersAsync();
+            if (orders == null || !orders.Any())
+                return NotFound(new ApiResponse(404, "No orders found"));
+
+            var totalCount = orders.Count;
+            var totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
+            var paginatedOrders = orders
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+            var ordersDto = _mapper.Map<List<GetAllOrders>>(paginatedOrders);
+            var response = new PaginatedOrderResponseDto
+            {
+                Orders = ordersDto,
+                Page = page,
+                PageSize = pageSize,
+                TotalCount = totalCount,
+                TotalPages = totalPages
+            };
+            return Ok(response);
+        }
+
 
         private async Task<ActionResult<OrderToReturnDto>> HandleOrderCreation(
             string appUserId,
