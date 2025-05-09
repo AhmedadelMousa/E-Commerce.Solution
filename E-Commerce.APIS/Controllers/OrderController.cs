@@ -1,11 +1,12 @@
 ﻿using AutoMapper;
+using Azure;
 using E_Commerce.APIS.DTOs;
 using E_Commerce.APIS.Errors;
 using E_Commerce.Core.Order_Aggregrate;
 using E_Commerce.Core.Repositories.Contract;
 using E_Commerce.Core.Services.Contract;
 using E_Commerce.Service.Helpers;
-
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,7 +16,7 @@ using System.Security.Claims;
 namespace E_Commerce.APIS.Controllers
 {
 
-    [Authorize]
+   // [Authorize]
     public class OrderController : BaseApiController
     {
         private readonly IOrderService _orderService;
@@ -30,6 +31,7 @@ namespace E_Commerce.APIS.Controllers
             _unitOfWork = unitOfWork;
             _basketRepository = basketRepository;
         }
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
         [HttpPost("BasketOrder")]
         public async Task<ActionResult<OrderToReturnDto>> CreateOrder(OrderDto dto)
         {
@@ -87,35 +89,55 @@ namespace E_Commerce.APIS.Controllers
             if (order is null) return BadRequest(new ApiResponse(400));
             return Ok(_mapper.Map<Order, OrderToReturnDto>(order));
         }
-
-        [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<GetAllOrders>>> GetOrdersForUserAsync()
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
+        [HttpGet("User/Orders")]
+        public async Task<ActionResult<IReadOnlyList<GetAllOrdersDto>>> GetOrdersForUserAsync([FromQuery] int page = 1, [FromQuery] int pageSize = 5)
         {
             var appUserId = GetAppUserIdFromToken();
             if (string.IsNullOrEmpty(appUserId))
                 return Unauthorized(new ApiResponse(401));
 
-            var orders= await _orderService.GetOrderForUserAsync(appUserId);
-            if (orders == null)
-            {
-                return NotFound(new ApiResponse(404, "Order not found"));
-            }
-            var ordersDto = _mapper.Map<List<GetAllOrders>>(orders);
-
-            return Ok(ordersDto);
-
-        }
-        [HttpGet]
-        public async Task<ActionResult<GetAllOrders>> GetOrdersForAdmin()
-        {
-            var orders= await _orderService.GetAllOrdersAsync();
+            // Fetch all orders for the user
+            var orders = await _orderService.GetOrderForUserAsync(appUserId);
             if (orders == null || !orders.Any())
             {
                 return NotFound(new ApiResponse(404, "Order not found"));
             }
-            var ordersDto = _mapper.Map<List<GetAllOrders>>(orders);
-            return Ok(ordersDto);
+
+            // Apply pagination logic
+            var totalCount = orders.Count;
+            var totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
+            var paginatedOrders = orders
+                .Skip((page - 1) * pageSize)  // Skip items based on page number
+                .Take(pageSize)               // Take the number of items specified by pageSize
+                .ToList();
+
+            var ordersDto = _mapper.Map<List<GetAllOrdersDto>>(paginatedOrders);
+
+            // Create response with pagination details
+            var response = new PaginatedOrderResponseUserDto
+            {
+                Orders = ordersDto,
+                Page = page,
+                PageSize = pageSize,
+                TotalCount = totalCount,
+                TotalPages = totalPages
+            };
+
+            return Ok(response);
+
         }
+        //[HttpGet]
+        //public async Task<ActionResult<GetAllOrders>> GetOrdersForAdmin()
+        //{
+        //    var orders= await _orderService.GetAllOrdersAsync();
+        //    if (orders == null || !orders.Any())
+        //    {
+        //        return NotFound(new ApiResponse(404, "Order not found"));
+        //    }
+        //    var ordersDto = _mapper.Map<List<GetAllOrders>>(orders);
+        //    return Ok(ordersDto);
+        //}
 
         [HttpGet("order")]
         public async Task<ActionResult<OrderDetailsDto>> GetOrderForUserAsync(string id)
@@ -132,33 +154,33 @@ namespace E_Commerce.APIS.Controllers
             return Ok(orderDetailsDto);
           
         }
-
-        [HttpGet("admin/orders")]
-        public async Task<ActionResult<IReadOnlyList<GetAllOrders>>>GetOrdersForAdmin([FromQuery] int page=1, [FromQuery] int pageSize=5)
-        {
-            if (page < 1 || pageSize < 1)
-                return BadRequest(new ApiResponse(400, "Invalid pagination parameters"));
-            var orders = await _orderService.GetAllOrdersAsync();
-            if (orders == null || !orders.Any())
-                return NotFound(new ApiResponse(404, "No orders found"));
-
-            var totalCount = orders.Count;
-            var totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
-            var paginatedOrders = orders
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
-                .ToList();
-            var ordersDto = _mapper.Map<List<GetAllOrders>>(paginatedOrders);
-            var response = new PaginatedOrderResponseDto
+          [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
+            [HttpGet("admin/orders")]
+            public async Task<ActionResult<IReadOnlyList<GetOrdersForAdminDto>>>GetOrdersForAdmin([FromQuery] int page=1, [FromQuery] int pageSize=5)
             {
-                Orders = ordersDto,
-                Page = page,
-                PageSize = pageSize,
-                TotalCount = totalCount,
-                TotalPages = totalPages
-            };
-            return Ok(response);
-        }
+                if (page < 1 || pageSize < 1)
+                    return BadRequest(new ApiResponse(400, "Invalid pagination parameters"));
+                var orders = await _orderService.GetAllOrdersAsync();
+                if (orders == null || !orders.Any())
+                    return NotFound(new ApiResponse(404, "No orders found"));
+
+                var totalCount = orders.Count;
+                var totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
+                var paginatedOrders = orders
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToList();
+                var ordersDto =  _mapper.Map<List<GetOrdersForAdminDto>>(paginatedOrders);
+                var response = new PaginatedOrderResponseAdminDto
+                {
+                    Orders = ordersDto,
+                    Page = page,
+                    PageSize = pageSize,
+                    TotalCount = totalCount,
+                    TotalPages = totalPages
+                };
+                return Ok(response);
+            }
 
 
         private async Task<ActionResult<OrderToReturnDto>> HandleOrderCreation(

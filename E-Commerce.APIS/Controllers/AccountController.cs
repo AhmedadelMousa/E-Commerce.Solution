@@ -48,7 +48,7 @@ namespace E_Commerce.APIS.Controllers
                 {
                     Email = user.Email,
                     DisplayName = user.DisplayName,
-                    Token = await _auth.CreateTokenFroUserAsync(user),
+                    Token = await _auth.CreateTokenForUserAsync(user),
                     AppUserId = user.Id,
                     Role = user.Role.ToString()
                 });
@@ -107,7 +107,7 @@ namespace E_Commerce.APIS.Controllers
                 {
                     DisplayName = user.DisplayName,
                     Email = user.Email,
-                    Token = await _auth.CreateTokenFroUserAsync(user),
+                    Token = await _auth.CreateTokenForUserAsync(user),
                     Role = user.Role.ToString(),
                     AppUserId = user.Id
                 });

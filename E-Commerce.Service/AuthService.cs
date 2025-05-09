@@ -26,13 +26,14 @@ namespace E_Commerce.Service
             _userManager = userManager;
             _jwtConf = options.Value;
         }
-        public async Task<string> CreateTokenFroUserAsync(AppUser user)
+        public async Task<string> CreateTokenForUserAsync(AppUser user)
         {
             var authClaims = new List<Claim>()
                {
                    new Claim(ClaimTypes.Name,user.DisplayName),
                    new Claim(ClaimTypes.Email,user.Email),
-                   new Claim(ClaimTypes.NameIdentifier, user.Id),
+                    new Claim("AppUserId", user.Id)
+                   //new Claim(ClaimTypes.NameIdentifier, user.Id),
                };
             var userRoles= await _userManager.GetRolesAsync(user);
 
