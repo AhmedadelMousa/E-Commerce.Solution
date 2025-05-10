@@ -52,7 +52,7 @@ namespace E_Commerce.APIS
                                 Id="Bearer"
                             }
                         },
-                        new string[]{}j
+                        new string[]{}
 
                     }
                 });

@@ -115,16 +115,16 @@ namespace E_Commerce.APIS.Helpers
                  .ForMember(p => p.Price, d => d.MapFrom(s => s.Price));
             CreateMap<Order, OrderDto>()
                 .ForMember(p => p.DeliveryMethodId, d => d.MapFrom(s => s.DeliveryMethodId)).ReverseMap();
-            CreateMap<Order, GetAllOrdersDto>()
-                .ForMember(p => p.OrderId, d => d.MapFrom(s => s.Id))
-                .ForMember(p => p.DeliveryMethod, d => d.MapFrom(s => s.DeliveryMethod.ShortName))
-               .ForMember(dest => dest.Total,
-                opt => opt.MapFrom(src => src.SubTotal + src.DeliveryMethod.Cost))
-                .ForMember(p => p.OrderCreatedAt, d => d.MapFrom(s => s.OrderDate))
+                CreateMap<Order, GetAllOrdersDto>()
+                    .ForMember(p => p.OrderId, d => d.MapFrom(s => s.Id))
+                    .ForMember(p => p.DeliveryMethod, d => d.MapFrom(s => s.DeliveryMethod.ShortName))
+                   .ForMember(dest => dest.Total,
+                    opt => opt.MapFrom(src => src.SubTotal + src.DeliveryMethod.Cost))
+                    .ForMember(p => p.OrderCreatedAt, d => d.MapFrom(s => s.OrderDate.DateTime))
 
-                .ForMember(p => p.PaymentMethod, d => d.MapFrom(s => s.paymentMethod))
-                .ForMember(p => p.NumberOfProductsItems, d => d.MapFrom(s => s.Items.Count))
-                .ForMember(p => p.Status, d => d.MapFrom(s => s.Status));
+                    .ForMember(p => p.PaymentMethod, d => d.MapFrom(s => s.paymentMethod))
+                    .ForMember(p => p.NumberOfProductsItems, d => d.MapFrom(s => s.Items.Count))
+                    .ForMember(p => p.Status, d => d.MapFrom(s => s.Status));
             CreateMap<Order, GetOrdersForAdminDto>()
               .ForMember(p => p.OrderId, d => d.MapFrom(s => s.Id))
               .ForMember(p => p.DeliveryMethod, d => d.MapFrom(s => s.DeliveryMethod.ShortName))
