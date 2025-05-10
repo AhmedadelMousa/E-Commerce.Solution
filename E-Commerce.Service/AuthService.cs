@@ -32,8 +32,8 @@ namespace E_Commerce.Service
                {
                    new Claim(ClaimTypes.Name,user.DisplayName),
                    new Claim(ClaimTypes.Email,user.Email),
-                    new Claim("AppUserId", user.Id)
-                   //new Claim(ClaimTypes.NameIdentifier, user.Id),
+                   //new Claim("AppUserId", user.Id)
+                   new Claim(ClaimTypes.NameIdentifier, user.Id),
                };
             var userRoles= await _userManager.GetRolesAsync(user);
 

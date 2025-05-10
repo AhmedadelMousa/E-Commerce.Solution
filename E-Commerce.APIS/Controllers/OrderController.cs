@@ -31,6 +31,7 @@ namespace E_Commerce.APIS.Controllers
             _unitOfWork = unitOfWork;
             _basketRepository = basketRepository;
         }
+
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
         [HttpPost("BasketOrder")]
         public async Task<ActionResult<OrderToReturnDto>> CreateOrder(OrderDto dto)
@@ -48,18 +49,17 @@ namespace E_Commerce.APIS.Controllers
             var address = _mapper.Map<AddressDto, AddressOrder>(dto.ShippingAddress);
 
             return await HandleOrderCreation(
-        appUserId,
-        dto.DeliveryMethodId,
-        dto.ShippingAddress,
-       async(address) =>  {
-           var order = await _orderService.CreateOrderAsync(appUserId, basketId, dto.DeliveryMethodId, address);
-           if (order != null) 
-           {
-               
-               await _basketRepository.DeleteBasketAsync(basketId);
-           }
-           return order;
-       });
+                    appUserId,
+                    dto.DeliveryMethodId,
+                    dto.ShippingAddress,
+                    async (address) =>  {
+                        var order = await _orderService.CreateOrderAsync(appUserId, basketId, dto.DeliveryMethodId, address);
+                        if (order != null) 
+                        {
+                            await _basketRepository.DeleteBasketAsync(basketId);
+                        }
+                        return order;
+                    });
             //var deliveryMethod = await _unitOfWork.Repository<DeliveryMethod>().GetByIdAsync(dto.DeliveryMethodId);
             //if (deliveryMethod == null)
             //    return BadRequest(); // أو ترجع BadRequest
@@ -154,7 +154,7 @@ namespace E_Commerce.APIS.Controllers
             return Ok(orderDetailsDto);
           
         }
-          [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
+          [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
             [HttpGet("admin/orders")]
             public async Task<ActionResult<IReadOnlyList<GetOrdersForAdminDto>>>GetOrdersForAdmin([FromQuery] int page=1, [FromQuery] int pageSize=5)
             {
