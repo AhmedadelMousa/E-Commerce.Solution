@@ -10,6 +10,6 @@ namespace E_Commerce.Core.Services.Contract
 {
     public interface IAuthService
     {
-        Task<string> CreateTokenFroUserAsync(AppUser user);
+        Task<string> CreateTokenForUserAsync(AppUser user);
     }
 }

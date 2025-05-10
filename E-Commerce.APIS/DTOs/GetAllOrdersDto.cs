@@ -5,13 +5,15 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace E_Commerce.APIS.DTOs
 {
-    public class GetAllOrders
+    public class GetAllOrdersDto
     {
 
         public string OrderId { get; set; }
         public string Status { get; set; }
         public string DeliveryMethod { get; set; }
         public decimal Total { get; set; }
+        public DateTime OrderCreatedAt { get; set; }
+        public int NumberOfProductsItems { get; set; }
         public string PaymentMethod { get; set; }
     }
 }

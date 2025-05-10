@@ -93,8 +93,8 @@ namespace E_Commerce.Service
         }
 
         public async Task<IReadOnlyList<Order>> GetAllOrdersAsync()
-        {
-            var orders= await _unitOfWork.Repository<Order>().GetAllAsync();
+        {   var spec= new OrderSpecification();
+            var orders= await _unitOfWork.Repository<Order>().GetAllWithSpecAsync(spec);
             return orders;
         }
 

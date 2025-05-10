@@ -21,5 +21,12 @@ namespace E_Commerce.Core.Specification.OrderSpecification
             Includes.Add(o => o.DeliveryMethod);
            
         }
+        public OrderSpecification() // 👈 استخدمها في GetAllOrdersAsync
+    : base()
+        {
+            Includes.Add(o => o.Items);
+            Includes.Add(o => o.DeliveryMethod);
+            Includes.Add(o => o.User);
+        }
     }
 }
