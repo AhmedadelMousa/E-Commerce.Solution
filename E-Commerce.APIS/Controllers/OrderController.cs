@@ -105,7 +105,7 @@ namespace E_Commerce.APIS.Controllers
             return Ok(ordersDto);
 
         }
-        [HttpGet]
+        [HttpGet("all-orders")]
         public async Task<ActionResult<GetAllOrders>> GetOrdersForAdmin()
         {
             var orders= await _orderService.GetAllOrdersAsync();
