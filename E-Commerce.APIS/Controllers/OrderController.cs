@@ -34,6 +34,8 @@ namespace E_Commerce.APIS.Controllers
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
         [HttpPost("BasketOrder")]
+        [ProducesResponseType(typeof(OrderToReturnDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(OrderToReturnDto), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<OrderToReturnDto>> CreateOrder(OrderDto dto)
         {
             if (dto == null || !ModelState.IsValid)
@@ -69,7 +71,9 @@ namespace E_Commerce.APIS.Controllers
             //return Ok(_mapper.Map<Order, OrderToReturnDto>(order));
         }
         [HttpPost("SingleOrder")]
-        public async Task<ActionResult<OrderToReturnDto>> CreateSingleOrder(OrderForSingleOrderDto dto)
+        [ProducesResponseType(typeof(OrderToReturnDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(OrderToReturnDto), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> CreateSingleOrder(OrderForSingleOrderDto dto)
         {
             var appUserId = GetAppUserIdFromToken();
             if (string.IsNullOrEmpty(appUserId))
@@ -89,9 +93,10 @@ namespace E_Commerce.APIS.Controllers
             if (order is null) return BadRequest(new ApiResponse(400));
             return Ok(_mapper.Map<Order, OrderToReturnDto>(order));
         }
+
         //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
         [HttpGet("User/Orders")]
-        public async Task<ActionResult<IReadOnlyList<GetAllOrdersDto>>> GetOrdersForUserAsync([FromQuery] int page = 1, [FromQuery] int pageSize = 5)
+        public async Task<ActionResult<PaginatedOrderResponseUserDto>> GetOrdersForUserAsync([FromQuery] int page = 1, [FromQuery] int pageSize = 5)
         {
             var appUserId = GetAppUserIdFromToken();
             if (string.IsNullOrEmpty(appUserId))
@@ -156,7 +161,7 @@ namespace E_Commerce.APIS.Controllers
         }
           [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
             [HttpGet("admin/orders")]
-            public async Task<ActionResult<IReadOnlyList<GetOrdersForAdminDto>>>GetOrdersForAdmin([FromQuery] int page=1, [FromQuery] int pageSize=5)
+            public async Task<ActionResult<PaginatedOrderResponseAdminDto>>GetOrdersForAdmin([FromQuery] int page=1, [FromQuery] int pageSize=5)
             {
                 if (page < 1 || pageSize < 1)
                     return BadRequest(new ApiResponse(400, "Invalid pagination parameters"));
@@ -187,7 +192,7 @@ namespace E_Commerce.APIS.Controllers
             string appUserId,
             string deliveryMethodId,
             AddressDto addressDto,
-            Func<AddressOrder, Task<Order>> createOrderFunc)
+            Func<AddressOrder, Task<Order?>> createOrderFunc)
         {
             var deliveryMethod = await _unitOfWork.Repository<DeliveryMethod>().GetByIdAsync(deliveryMethodId);
             if (deliveryMethod == null)
